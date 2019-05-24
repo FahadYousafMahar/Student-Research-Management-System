@@ -1,0 +1,3 @@
+App/Views/css/* linguist-vendored
+App/Views/css/myOwn.js linguist-vendored=false
+vendors/*.css linguist-vendored

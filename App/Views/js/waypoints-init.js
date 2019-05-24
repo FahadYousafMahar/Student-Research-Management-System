@@ -1,0 +1,1 @@
+$(document).ready(function(){var n=$(".counter");n.length&&n.each(function(){jQuery(this).waypoint(function(){$(this.element).find("span").countTo(),this.destroy()},{offset:"95%"})})});
