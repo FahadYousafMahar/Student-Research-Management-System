@@ -1,1 +1,0 @@
-CRUMINA.equalHeight=function(){$(".js-equal-child").find(".theme-module").matchHeight({property:"min-height"})},$(document).ready(function(){void 0!==$.fn.matchHeight&&CRUMINA.equalHeight()});

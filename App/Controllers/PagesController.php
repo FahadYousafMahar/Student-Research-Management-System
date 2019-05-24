@@ -58,7 +58,7 @@ class PagesController
         }else{
 
             $title = 'Home ';
-            return view('login', compact('title'));
+            return view('index', compact('title'));
         }
     }
 
@@ -302,9 +302,12 @@ class PagesController
 
     public function pagenotfound()
     {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        
         $title  = '404 - Page Not Found';
-        $pageTitle  = 'Error 404';
-        return view('404', compact('title', 'pageTitle'));
+        return view('404', compact('title'));
     }
     public function timeline($username = null)
     {
