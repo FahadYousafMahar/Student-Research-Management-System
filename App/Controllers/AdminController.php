@@ -128,230 +128,746 @@ class AdminController
         
     }
 
-    public function myprofile($username = null)
+    public function editAdmin($id = null)
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        
-        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
-            try {
-                if (!isset($username)) {
-                    $username = $_SESSION['email'];
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                if($id==null){
+                    $id = $_SESSION['id'];
                 }
-                $result = App::get('database')->selectOne('user', 'User', 'username', $username);
-                if (count($result) > 0) {
-                    $user =  $result[0];
-                    $about = App::get('database')->query('about', 'About', "where userid = $user->id ");
-                    if (count($about)>0) {
-                        $about = $about[0];
-                    } else {
-                        $about = new \Myweb\Classes\About;
-                        $about->userid = $_SESSION['id'];
-                        $about = get_object_vars($about);
-                        App::get('database')->insert('about', $about);
-                    }
-                    $title = 'About';
-                    $pageTitle = 'About';
-                    return view('youraccount', compact('title', 'pageTitle', 'user', 'about'));
-                } else {
-                    $e = new Exception("Empty User at ".get_class()."@".__FUNCTION__." in ".__FILE__." at ".__LINE__."\n");
-                    error_log("My Error : ".$e->getMessage());
-                    nextpagealert("error", "User Does Not Exist");
-                    header("Location: /login");
+                try {
+                    $admin = App::get('database')->selectOne('admin', 'Admin','id',$id);
+                    $user = App::get('database')->selectOne('admin', 'Admin','email',$_SESSION['email']);
+                    $user = $user[0];
+                    $admin = $admin[0];
+                    $title = 'Edit Admin';
+                    return view('editAdmin', compact('title','admin','user'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
                 }
-            } catch (PDOException $e) {
-                $e->getMessage();
-                error_log("DB Error : ".$e->getMessage());
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
             }
         } else {
-            header("Location: /login");
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
         }
+        
     }
 
-    public function friendbirthday($username = null)
+    public function editadminprocess($id = null)
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        
-        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
-            try {
-                if (!isset($username)) {
-                    $username = $_SESSION['email'];
+        $value = [];
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                if($id==null){
+                    \nextpagealert("error","Please Specify An Admin To Be Edited !");
+                    header("Location: ".$_SERVER['REQUEST_URI']);
                 }
-                $result = App::get('database')->query(
-                    'user',
-                    'User',
-                    "where id in 
-                    (select user_one_id from friends where user_two_id = {$_SESSION['id']} and status = 1)
-                  or id in 
-                    (select user_two_id from friends where user_one_id = {$_SESSION['id']} and status = 1)"
-                );
-                if (count($result) > 0) {
-                    $friends = $result;
-                    $title = 'Friends\' Birthdays';
-                    $pageTitle = 'Friends\' Birthdays';
-                    return view('friendbirthday', compact('title', 'pageTitle', 'friends'));
-                } else {
-                    $e = new Exception("Empty User at ".get_class()."@".__FUNCTION__." in ".__FILE__." at ".__LINE__."\n");
-                    error_log("My Error : ".$e->getMessage());
-                    nextpagealert("error", "You have no Friends. Try to make some !");
-                    header("Location: /login");
+                if (file_exists($_FILES['profilepic']['tmp_name']) || is_uploaded_file($_FILES['profilepic']['tmp_name'])) {
+                    $image = App::get('Image')->make($_FILES['profilepic']['tmp_name'])->fit(110, 110)->save(getcwd().'/app/data/images/users/'.$_POST['email'].'.jpg');
+                    $value['profilepic'] = $_POST['email'];
                 }
-            } catch (PDOException $e) {
-                $e->getMessage();
-                error_log("DB Error : ".$e->getMessage());
-            }
-        } else {
-            header("Location: /login");
-        }
-    }
-
-    public function friends($username = null)
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        
-        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
-            try {
-                if (!isset($username)) {
-                    $username = $_SESSION['email'];
-                }
-                $result = App::get('database')->selectOne('user', 'User', 'username', $username);
-                $user = $result[0];
-                $result = App::get('database')->query(
-                    'user',
-                    'User',
-                    "where id in 
-                    (select user_one_id from friends where user_two_id = {$_SESSION['id']} and status = 1)
-                  or id in 
-                    (select user_two_id from friends where user_one_id = {$_SESSION['id']} and status = 1)"
-                );
-                if (count($result) > 0) {
-                    $friends = $result;
-                    $title = 'Friends';
-                    $pageTitle = 'Friends';
-                    return view('friends', compact('title', 'pageTitle', 'friends', 'user'));
-                } else {
-                    $e = new Exception("Empty User at ".get_class()."@".__FUNCTION__." in ".__FILE__." at ".__LINE__."\n");
-                    error_log("My Error : ".$e->getMessage());
-                    nextpagealert("error", "You have no Friends. Try to make some !");
-                    header("Location: /timeline");
-                }
-            } catch (PDOException $e) {
-                $e->getMessage();
-                error_log("DB Error : ".$e->getMessage());
-            }
-        } else {
-            header("Location: /login");
-        }
-    }
-
-
-    public function messages($username = null)
-    {
-        $title = 'Messages';
-        $pageTitle = 'Messages';
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
-        
-        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
-            try {
-                $result = App::get('database')->selectOne('user', 'User', 'id', $_SESSION['id']);
-                $user = $result[0];
-                $result = App::get('database')->query('user','User',"where id in (select user_one_id from friends where user_two_id = {$_SESSION['id']} and status = 1) or id in (select user_two_id from friends where user_one_id = {$_SESSION['id']} and status = 1)");
-                $friends = $result;
-                $result = App::get('database')->query('messages', 'Message', "where fromid in ( {$_SESSION['id']} ) or toid in ( {$_SESSION['id']} ) order by createdat desc");
-                $messages = $result;
-                if (!isset($username)) {
-                    try {
-                        $result = App::get('database')->customselect("(select fromid from messages where toid = {$_SESSION['id']} order by createdat desc) union (select toid from messages where fromid = {$_SESSION['id']} order by createdat desc )");
-                        if(!empty($result[0]['fromid'])){
-                            $chatuserid = $result[0]['fromid'];
+                $_POST = Gump::sanitize(Gump::xss_clean($_POST));
+                foreach ($_POST as $k=>$v) {
+                    if (!empty($v)) {
+                        if($k =='password' || $k == 'confirmpassword'){
+                            if($_POST['password'] == $_POST['confirmpassword']){
+                                $value['password']=sha1(md5($v));
+                            }else{
+                                nextpagealert("error", "Password and Confirm Password Donot match!");
+                                header("Location: ".$_SERVER['REQUEST_URI']);
+                            }
+                        }else if ($k == 'birthday'){
+                            $value[$k] = date("Y-m-d", strtotime($v));
                         }else{
-                            $chatuserid = $result[0]['toid'];
+                            $value[$k]=$v;
                         }
-                    } catch (PDOException $e) {
-                        $e->getMessage();
-                        error_log("DB Error : ".$e->getMessage());
-                    }
-                    return view('messages', compact('title', 'pageTitle', 'friends', 'user', 'messages','chatuserid'));
-                } else {
-                    if (!empty($chatuserid = $this->find('username', $username, 'id', $friends))) {
-                            return view('messages', compact('title', 'pageTitle', 'friends', 'user', 'messages','chatuserid'));
-                    } else {
-                        $result = App::get('database')->customselect("(select fromid from messages where toid = {$_SESSION['id']} order by createdat desc) union (select toid from messages where fromid = {$_SESSION['id']} order by createdat desc )");
-                        $chatuserid = $result[0];
-                        return view('messages', compact('title', 'pageTitle', 'friends', 'user', 'messages','chatuserid'));
                     }
                 }
-            } catch (PDOException $e) {
-                $e->getMessage();
-                error_log("DB Error : ".$e->getMessage());
+                try {
+                    if (App::get('database')->updatewhere('admin', $value, 'id', $id)) {
+                        if($id == $_SESSION['id']){
+                            $row = App::get('database')->selectOne('admin', 'Admin', 'id', $id);
+                            foreach ($row[0] as $key => $value) {
+                                $_SESSION[$key] = $value;
+                            }
+                        }
+                        nextpagealert("success", "Profile was Updated Successfully!");
+                        header("Location: ".$_SERVER['REQUEST_URI']);
+                    } else {
+                        nextpagealert("error", "An error occurred in Updating profile!");
+                        header("Location: ".$_SERVER['REQUEST_URI']);
+                    }
+                } catch (PDOException $e) {
+                    nextpagealert("error", "A database error occurred in Updating profile!");
+                    \error_log("DB Error : ".$e->getMessage());
+                    header("Location: ".$_SERVER['REQUEST_URI']);
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
             }
         } else {
-            header("Location: /login");
-        }
-    }
-
-
-    public function changepasswordform()
-    {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
         }
         
-        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
-            $title = 'Change Password';
-            $pageTitle = 'Change Password';
-            return view('changepassword', compact('title', 'pageTitle'));
-        } else {
-            header("Location: /login");
-        }
     }
 
-    public function settingProcess()
+    public function editStudent($id = null)
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        $_POST = Gump::sanitize(Gump::xss_clean($_POST));
-        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
-            foreach ($_POST as $key=>$value) {
-                if (\array_key_exists($key, \get_object_vars(new \Myweb\Classes\User))) {
-                    $user[$key]=$value;
-                } else {
-                    $about[$key]=$value;
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                if($id==null){
+                    \nextpagealert("error","Please Specify A Student To Be Edited !");
+                    header('Location: /dashboard');
                 }
-            }
-            $user['birthday']= date("Y-m-d", strtotime($user['birthday']));
-            try {
-                if (App::get('database')->updatewhere('user', $user, 'id', $_SESSION['id']) && App::get('database')->updatewhere('about', $about, 'userid', $_SESSION['id'])) {
-                    nextpagealert("success", "Profile was Updated Successfully!");
-                    header("Location: /setting");
-                } else {
-                    nextpagealert("error", "An error occurred in Updating profile!");
-                    header("Location: /setting");
+                try {
+                    $student = App::get('database')->selectOne('student', 'Student','id', $id);
+                    $user = App::get('database')->selectOne('admin', 'Admin','email',$_SESSION['email']);
+                    $user = $user[0];
+                    $student = $student[0];
+                    $title = 'Edit Student';
+                    return view('editstudent', compact('title','student','user'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
                 }
-            } catch (PDOException $e) {
-                nextpagealert("error", "A database error occurred in Updating profile!");
-                \error_log("DB Error : ".$e->getMessage());
-                header("Location: /setting");
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
             }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
         }
+        
     }
-    private function find($getp, $getv, $give, $haystack)
+
+    public function editstudentprocess($id = null)
     {
-        foreach ($haystack as $h) {
-            foreach ((get_object_vars($h)) as $p => $v) {
-                if ($h->$getp == $getv) {
-                    return $h->$give;
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        $value = [];
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                if($id==null){
+                    \nextpagealert("error","Please Specify A Student To Be Edited !");
+                    header('Location: /dashboard');
                 }
+                if (file_exists($_FILES['profilepic']['tmp_name']) || is_uploaded_file($_FILES['profilepic']['tmp_name'])) {
+                    $image = App::get('Image')->make($_FILES['profilepic']['tmp_name'])->fit(110, 110)->save(getcwd().'/app/data/images/users/'.$_POST['email'].'.jpg');
+                    $value['profilepic'] = $_POST['email'];
+                }
+                $_POST = Gump::sanitize(Gump::xss_clean($_POST));
+                foreach ($_POST as $k=>$v) {
+                    if (!empty($v)) {
+                        if($k =='password' || $k == 'confirmpassword'){
+                            if($_POST['password'] == $_POST['confirmpassword']){
+                                $value['password']=sha1(md5($v));
+                            }else{
+                                nextpagealert("error", "Password and Confirm Password Donot match!");
+                                header("Location: ".$_SERVER['REQUEST_URI']);
+                            }
+                        }else if ($k == 'birthday'){
+                            $value[$k] = date("Y-m-d", strtotime($v));
+                        }else{
+                            $value[$k]=$v;
+                        }
+                    }
+                }
+                try {
+                    if (App::get('database')->updatewhere('student', $value, 'id', $id)) {
+                        nextpagealert("success", "Profile was Updated Successfully!");
+                        header("Location: ".$_SERVER['REQUEST_URI']);
+                    } else {
+                        nextpagealert("error", "An error occurred in Updating profile!");
+                        header("Location: ".$_SERVER['REQUEST_URI']);
+                    }
+                } catch (PDOException $e) {
+                    nextpagealert("error", "A database error occurred in Updating profile!");
+                    \error_log("DB Error : ".$e->getMessage());
+                    header("Location: ".$_SERVER['REQUEST_URI']);
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+        
+    }
+
+    public function editFaculty($id = null)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                if($id==null){
+                    \nextpagealert("error","Please Specify A Faculty Member To Be Edited !");
+                    header('Location: /dashboard');
+                }
+                try {
+                    $faculty = App::get('database')->selectOne('faculty', 'Faculty','id', $id);
+                    $user = App::get('database')->selectOne('admin', 'Admin','email',$_SESSION['email']);
+                    $user = $user[0];
+                    $faculty = $faculty[0];
+                    $title = 'Edit Faculty';
+                    return view('editfaculty', compact('title','faculty','user'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+        
+    }
+
+    public function editfacultyprocess($id = null)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        $value = [];
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                if($id==null){
+                    \nextpagealert("error","Please Specify A Faculty Member To Be Edited !");
+                    header('Location: /dashboard');
+                }
+                if (file_exists($_FILES['profilepic']['tmp_name']) || is_uploaded_file($_FILES['profilepic']['tmp_name'])) {
+                    $image = App::get('Image')->make($_FILES['profilepic']['tmp_name'])->fit(110, 110)->save(getcwd().'/app/data/images/users/'.$_POST['email'].'.jpg');
+                    $value['profilepic'] = $_POST['email'];
+                }
+                $_POST = Gump::sanitize(Gump::xss_clean($_POST));
+                foreach ($_POST as $k=>$v) {
+                    if (!empty($v)) {
+                        if($k =='password' || $k == 'confirmpassword'){
+                            if($_POST['password'] == $_POST['confirmpassword']){
+                                $value['password']=sha1(md5($v));
+                            }else{
+                                nextpagealert("error", "Password and Confirm Password Donot match!");
+                                header("Location: ".$_SERVER['REQUEST_URI']);
+                            }
+                        }else if ($k == 'birthday'){
+                            $value[$k] = date("Y-m-d", strtotime($v));
+                        }else{
+                            $value[$k]=$v;
+                        }
+                    }
+                }
+                try {
+                    if (App::get('database')->updatewhere('faculty', $value, 'id', $id)) {
+                        nextpagealert("success", "Profile was Updated Successfully!");
+                        header("Location: ".$_SERVER['REQUEST_URI']);
+                        exit();
+                    } else {
+                        nextpagealert("error", "An error occurred in Updating profile!");
+                        header("Location: ".$_SERVER['REQUEST_URI']);
+                        exit();
+                    }
+                } catch (PDOException $e) {
+                    nextpagealert("error", "A database error occurred in Updating profile!");
+                    \error_log("DB Error : ".$e->getMessage());
+                    header("Location: ".$_SERVER['REQUEST_URI']);
+                    exit();
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+        
+    }
+
+    public function deleteadmin($id = null)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                if($id==null){
+                    \nextpagealert("error","Please Specify An Admin To Be Edited !");
+                    header("Location: /viewadmins"); 
+                    exit();
+                }else if($id==$_SESSION['id']){
+                    \nextpagealert("error","AH! You Cannot Delete Yourself!");
+                    header("Location: /viewadmins"); 
+                    exit();
+                }
+                try {
+                    if (App::get('database')->customquery("delete from admin where id = ".$id)) {
+                        nextpagealert("success", "Profile was Deleted Successfully!");
+                        header("Location: /viewadmins"); 
+                        exit();
+                    } else {
+                        nextpagealert("error", "An error occurred in Deleting profile!");
+                        header("Location: /viewadmins"); 
+                        exit();
+                    }
+                } catch (PDOException $e) {
+                    nextpagealert("error", "A database error occurred in Deleting profile!");
+                    \error_log("DB Error : ".$e->getMessage());
+                    header("Location: /viewadmins"); 
+                    exit();
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+                exit();
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+        
+    }
+
+    public function deletefaculty($id = null)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                if($id==null){
+                    \nextpagealert("error","Please Specify A Faculty To Be Edited !");
+                    header("Location: /viewfaculty"); 
+                }
+                try {
+                    if (App::get('database')->customquery("delete from faculty where id = ".$id)) {
+                        nextpagealert("success", "Profile was Deleted Successfully!");
+                        header("Location: /viewfaculty"); 
+                        exit();
+                    } else {
+                        nextpagealert("error", "An error occurred in Deleting profile!");
+                        header("Location: /viewfaculty"); 
+                        exit();
+                    }
+                } catch (PDOException $e) {
+                    nextpagealert("error", "A database error occurred in Deleting profile!");
+                    \error_log("DB Error : ".$e->getMessage());
+                    header("Location: /viewfaculty"); 
+                    exit();
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+                exit();
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+        
+    }
+
+    public function deletestudent($id = null)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                if($id==null){
+                    \nextpagealert("error","Please Specify A Student To Be Edited !");
+                    header("Location: /viewstudents"); 
+                    exit();
+                }
+                try {
+                    if (App::get('database')->customquery("delete from student where id = ".$id)) {
+                        nextpagealert("success", "Profile was Deleted Successfully!");
+                        header("Location: /viewstudents"); 
+                        exit();
+                    } else {
+                        nextpagealert("error", "An error occurred in Deleting profile!");
+                        header("Location: /viewstudents"); 
+                        exit();
+                    }
+                } catch (PDOException $e) {
+                    nextpagealert("error", "A database error occurred in Deleting profile!");
+                    \error_log("DB Error : ".$e->getMessage());
+                    header("Location: /viewstudents"); 
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+        
+    }
+
+
+    public function addadmin()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                try {
+                    $user = App::get('database')->selectOne('admin', 'Admin','id',$_SESSION['id']);
+                    $user = $user[0];
+                    $title = 'Add Admin';
+                    return view('addadmin', compact('title','user'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+    }
+
+    public function addadminprocess()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                $user = App::get('database')->selectOne('admin', 'Admin','id',$_SESSION['id']);
+                $user = $user[0];
+                $errors = array();
+                $status = false;
+                GUMP::sanitize($_POST);
+                $validate = GUMP::is_valid($_POST, array(
+            'fname'        => 'required|alpha_space',
+            'lname'        => 'required|alpha_space',
+            'password'        => 'required|min_len,8',
+            'confirmpassword' => 'required|min_len,8',
+            'email'           => 'required|valid_email',
+            'gender'   =>  'required|alpha',
+            'birthday'             => 'required',
+            'city'             => 'required|alpha_space',
+            'country'             => 'required|alpha_space',
+            ));
+                if ($validate === true) {
+                    $_POST['birthday'] = Carbon::createFromFormat("d/m/Y", $_POST['birthday'])->format('Y-m-d');
+                    if (file_exists($_FILES['profilepic']['tmp_name']) || is_uploaded_file($_FILES['profilepic']['tmp_name'])) {
+                        $image = App::get('Image')->make($_FILES['profilepic']['tmp_name'])->fit(110, 110)->save(getcwd().'/app/data/images/users/'.$_POST['email'].'.jpg');
+                        $value['profilepic'] = $_POST['email'];
+                    }
+                    if ($_POST['password'] == $_POST['confirmpassword']) {
+                        $value['password'] = sha1(md5($_POST['password']));
+                        $value['email'] = $_POST['email'];
+                        $value['fname'] = $_POST['fname'];
+                        $value['lname'] = $_POST['lname'];
+                        $value['birthday'] = $_POST['birthday'];
+                        $value['gender'] = $_POST['gender'];
+                        $value['country'] = $_POST['country'];
+                        $value['city'] = $_POST['city'];
+
+                        try {
+                            $emailcount = App::get('database')->selectOneCount('admin', 'Admin', 'email', $value['email']);
+                            if ($emailcount['count(*)']>'0') {
+                                $status = false;
+                                array_push($errors, "Email aready Exists");
+                            } else {
+                                try {
+                                    App::get('database')->insert('admin', $value);
+                                    \nextpagealert("success", "Admin Has Been Successfully Added !");
+                                    $status=true;
+                                    header("Location: /viewadmins");
+                                } catch (PDOException $e) {
+                                    $e->getMessage();
+                                    error_log("DB Error : ".$e->getMessage());
+                                }
+                            }
+                        } catch (PDOException $e) {
+                            $e->getMessage();
+                            error_log("DB Error : ".$e->getMessage());
+                        }
+                    } else {
+                        $status = false;
+                        array_push($errors, "Passwords donot match.");
+                    }
+                } else {
+                    $status = false;
+                    $errors = array_merge($errors, $validate);
+                }
+                $title = 'Add An Admin';
+                return view('addadmin', compact('title', 'status', 'errors','user'));
+            } else {
+                \nextpagealert("error", "You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
             }
         }
-        return null;
     }
+
+    public function addfaculty()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                $user = App::get('database')->selectOne('admin', 'Admin','id',$_SESSION['id']);
+                $user = $user[0];
+                try {
+                    $user = App::get('database')->selectOne('faculty', 'Faculty','id',$_SESSION['id']);
+                    $user = $user[0];
+                    $title = 'Add Faculty';
+                    return view('addfaculty', compact('title','user'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+    }
+
+    public function addfacultyprocess()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                $user = App::get('database')->selectOne('admin', 'Admin','id',$_SESSION['id']);
+                $user = $user[0];
+                $errors = array();
+                $status = false;
+                GUMP::sanitize($_POST);
+                $validate = GUMP::is_valid($_POST, array(
+            'fname'        => 'required|alpha_space',
+            'lname'        => 'required|alpha_space',
+            'password'        => 'required|min_len,8',
+            'confirmpassword' => 'required|min_len,8',
+            'email'           => 'required|valid_email',
+            'gender'   =>  'required|alpha',
+            'birthday'             => 'required',
+            'city'             => 'required|alpha_space',
+            'country'             => 'required|alpha_space',
+            'education'             => 'required|alpha_space',
+            'institute'             => 'required|alpha_space',
+            'aboutme'             => 'alpha_space',
+            ));
+                if ($validate === true) {
+                    $_POST['birthday'] = Carbon::createFromFormat("d/m/Y", $_POST['birthday'])->format('Y-m-d');
+                    if (file_exists($_FILES['profilepic']['tmp_name']) || is_uploaded_file($_FILES['profilepic']['tmp_name'])) {
+                        $image = App::get('Image')->make($_FILES['profilepic']['tmp_name'])->fit(110, 110)->save(getcwd().'/app/data/images/users/'.$_POST['email'].'.jpg');
+                        $value['profilepic'] = $_POST['email'];
+                    }
+                    if ($_POST['password'] == $_POST['confirmpassword']) {
+                        $value['password'] = sha1(md5($_POST['password']));
+                        $value['email'] = $_POST['email'];
+                        $value['fname'] = $_POST['fname'];
+                        $value['lname'] = $_POST['lname'];
+                        $value['birthday'] = $_POST['birthday'];
+                        $value['gender'] = $_POST['gender'];
+                        $value['country'] = $_POST['country'];
+                        $value['city'] = $_POST['city'];
+                        $value['education'] = $_POST['education'];
+                        $value['institute'] = $_POST['institute'];
+                        $value['aboutme'] = $_POST['aboutme'];
+                        try {
+                            $emailcount = App::get('database')->selectOneCount('faculty', 'Faculty', 'email', $value['email']);
+                            if ($emailcount['count(*)']>'0') {
+                                $status = false;
+                                array_push($errors, "Email aready Exists");
+                            } else {
+                                try {
+                                    App::get('database')->insert('faculty', $value);
+                                    \nextpagealert("success","Faculty Member Has Been Successfully Added !");
+                                    $status = true;
+                                    header("Location: /viewfaculty");
+                                    exit();
+                                } catch (PDOException $e) {
+                                    $e->getMessage();
+                                    error_log("DB Error : ".$e->getMessage());
+                                }
+                            }
+                        } catch (PDOException $e) {
+                            $e->getMessage();
+                            error_log("DB Error : ".$e->getMessage());
+                        }
+                    } else {
+                        $status = false;
+                        array_push($errors, "Passwords donot match.");
+                    }
+                } else {
+                    $status = false;
+                    $errors = array_merge($errors, $validate);
+                }
+                $title = 'Add Faculty';
+                return view('addfaculty', compact('title', 'status', 'errors','user'));
+            } else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+    }
+
+    public function addstudent()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                $user = App::get('database')->selectOne('admin', 'Admin','id',$_SESSION['id']);
+                $user = $user[0];
+                try {
+                    $user = App::get('database')->selectOne('student', 'Student','id',$_SESSION['id']);
+                    $user = $user[0];
+                    $title = 'Add Student';
+                    return view('addstudent', compact('title','user'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+    }
+
+    public function addstudentprocess()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                $user = App::get('database')->selectOne('admin', 'Admin','id',$_SESSION['id']);
+                $user = $user[0];
+                $errors = array();
+                $status = false;
+                GUMP::sanitize($_POST);
+                $validate = GUMP::is_valid($_POST, array(
+                    'fname'        => 'required|alpha_space',
+                    'lname'        => 'required|alpha_space',
+                    'password'        => 'required|min_len,8',
+                    'confirmpassword' => 'required|min_len,8',
+                    'email'           => 'required|valid_email',
+                    'gender'   =>  'required|alpha',
+                    'birthday'             => 'required',
+                    'city'             => 'required|alpha_space',
+                    'country'             => 'required|alpha_space',
+                    'degree'             => 'required|alpha_space',
+                    'semester'             => 'required|alpha_space',
+                    'semesteryear'             => 'required|alpha_space',
+                    'institute'             => 'required|alpha_space',
+                    'aboutme'             => 'alpha_space',
+                    ));
+                if ($validate === true) {
+                    $_POST['birthday'] = Carbon::createFromFormat("d/m/Y", $_POST['birthday'])->format('Y-m-d');
+                    if (file_exists($_FILES['profilepic']['tmp_name']) || is_uploaded_file($_FILES['profilepic']['tmp_name'])) {
+                        $image = App::get('Image')->make($_FILES['profilepic']['tmp_name'])->fit(110, 110)->save(getcwd().'/app/data/images/users/'.$_POST['email'].'.jpg');
+                        $value['profilepic'] = $_POST['email'];
+                    }
+                    if ($_POST['password'] == $_POST['confirmpassword']) {
+                        $value['password'] = sha1(md5($_POST['password']));
+                        $value['email'] = $_POST['email'];
+                        $value['fname'] = $_POST['fname'];
+                        $value['lname'] = $_POST['lname'];
+                        $value['birthday'] = $_POST['birthday'];
+                        $value['gender'] = $_POST['gender'];
+                        $value['country'] = $_POST['country'];
+                        $value['city'] = $_POST['city'];
+                        $value['degree'] = $_POST['degree'];
+                        $value['semester'] = $_POST['semester'];
+                        $value['semesteryear'] = $_POST['semesteryear'];
+                        $value['institute'] = $_POST['institute'];
+                        $value['aboutme'] = $_POST['aboutme'];
+                        try {
+                            $emailcount = App::get('database')->selectOneCount('student', 'Student', 'email', $value['email']);
+                            if ($emailcount['count(*)']>'0') {
+                                $status = false;
+                                array_push($errors, "Email aready Exists");
+                            } else {
+                                try {
+                                    App::get('database')->insert('student', $value);
+                                    \nextpagealert("success","Student Has Been Successfully Added !");
+                                    $status = true;
+                                    header("Location: /viewstudents");
+                                    exit();
+                                } catch (PDOException $e) {
+                                    $e->getMessage();
+                                    error_log("DB Error : ".$e->getMessage());
+                                }
+                            }
+                        } catch (PDOException $e) {
+                            $e->getMessage();
+                            error_log("DB Error : ".$e->getMessage());
+                        }
+                    } else {
+                        $status = false;
+                        array_push($errors, "Passwords donot match.");
+                    }
+                } else {
+                    $status = false;
+                    $errors = array_merge($errors, $validate);
+                }
+                $title = 'Add Student';
+                return view('addstudent', compact('title', 'status', 'errors','user'));
+            } else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+    }
+    // private function find($getp, $getv, $give, $haystack)
+    // {
+    //     foreach ($haystack as $h) {
+    //         foreach ((get_object_vars($h)) as $p => $v) {
+    //             if ($h->$getp == $getv) {
+    //                 return $h->$give;
+    //             }
+    //         }
+    //     }
+    //     return null;
+    // }
 }

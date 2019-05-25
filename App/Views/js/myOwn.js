@@ -132,7 +132,8 @@ $(document).ready(function () {
 
     // // Attahcing  Cover photo uploader
 
-    $("#addPhotoInput").click(function () {
+    $("#addPhotoInput").click(function(e) {
+        e.preventDefault();
         $(this).closest('form').find('input[type="file"]').trigger('click');
     });
 

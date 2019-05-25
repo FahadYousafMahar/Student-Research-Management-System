@@ -1,32 +1,67 @@
 <?php include 'partials/head.php'; ?>
 <body class="login">
 <?php include 'partials/nav.php'; ?>
-<div class="parallax page-section bg-blue-600">
+<div class="parallax overflow-hidden bg-blue-400 page-section third">
     <div class="container parallax-layer" data-opacity="true" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
-      <div class="media media-grid v-middle">
-        <div class="media-left">
-          <span class="icon-block half text-white"><i class="fa fa-graduation-cap fa-2x"></i></span>
+      <div class="media v-middle">
+        <div class="media-left text-center">
+          <a href="#">
+            <img src="/App/Data/images/users/<?= $user->profilepic ?>.jpg" alt="people" class="img-circle width-80">
+          </a>
         </div>
         <div class="media-body">
-          <h3 class="text-display-2 text-white margin-none">Student Registration</h3>
-          <p class="text-white text-subhead">Get registered to submit your research papers!</p>
+          <h1 class="text-white text-capitalize text-display-1 margin-v-0"><?= $user->fname.' '.$user->lname ?></h1>
+          <p class="text-subhead"><a class="link-white text-capitalize" href=""><?= $user->city.' , '.$user->country ?></a></p>
+        </div>
+        <div class="media-right">
+          <span class="label bg-blue-500 text-uppercase"><?= $_SESSION['type'] ?></span>
         </div>
       </div>
     </div>
   </div>
   <br>
-
-    <div class="container">
+  <div class="container">
+    <div class="page-section">
+    <div class="row">
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="media v-middle">
+          <div class="media-left">
+            <div class="bg-green-400 text-white">
+              <div class="panel-body">
+                <i class="fa fa-pencil fa-fw fa-2x"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="media-right media-padding">
+            <a class="btn btn-white paper-shadow relative" data-z="0.5" data-hover-z="1" data-animated="" href="/addFaculty">
+            Create New Faculty
+        </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div class="panel panel-default text-center paper-shadow" data-z="0.5">
-          <h1 class="text-display-1">Register As Student</h1>
+          <h1 class="text-display-1">Edit Faculty</h1>
           <div class="panel-body">
             <!-- Signup -->
-            <form role="form" method="post" enctype="multipart/form-data"  action="/registerstudent">
+            <?php $i = $faculty ?>
+            <form role="form" method="post" enctype="multipart/form-data" action="/editFaculty/<?= $i->id?>">
+            <div class="row">
+            <center><img class="thumbnail width-80" src="/App/Data/images/users/<?=$i->profilepic?>.jpg"></center>
+            <div class="form-group">
+                  <div class="form-control-material">
+                  <input type="file" style="display:none" name="profilepic">
+                  <button id="addPhotoInput" class="btn btn-primary"><i class="icon-user-1"></i> Upload Profile Picture</button>
+                  </div>
+                </div>
+            </div>
             <div class="row">
               <div class="col-md-6 col-xs-12 col-sm-12">
                 <div class="form-group">
                   <div class="form-control-material">
-                    <input required id="firstName" type="text" name="fname"  class="form-control" placeholder="First Name"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                    <input  id="firstName" type="text" name="fname" value="<?= $i->fname?>" class="form-control" placeholder="First Name"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                     <label for="firstName">First name</label>
                   </div>
                 </div>
@@ -34,7 +69,7 @@
               <div class="col-md-6 col-xs-12 col-sm-12">
                 <div class="form-group">
                   <div class="form-control-material">
-                    <input required id="lastName" type="text"  name="lname" class="form-control" placeholder="Last Name"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                    <input  id="lastName" type="text"  value="<?= $i->lname?>" name="lname" class="form-control" placeholder="Last Name"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                     <label for="lastName">Last name</label>
                   </div>
                 </div>
@@ -44,7 +79,7 @@
               <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
-                  <input required name="email" type="email" class="form-control" placeholder="Email"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <input  name="email" type="email" value="<?= $i->email?>" class="form-control" placeholder="Email"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                   <label for="email">Email address</label>
                 </div>
               </div>
@@ -54,7 +89,7 @@
             <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
-                  <input required id="password" type="password"  name="password" class="form-control" placeholder="Password"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <input  id="password" type="password" value="" name="password" class="form-control" placeholder="(Keep Blank For No Change)"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                   <label for="password">Password</label>
                 </div>
               </div>
@@ -62,7 +97,7 @@
               <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
-                  <input required id="passwordConfirmation"  name="confirmpassword" type="password" class="form-control" placeholder="Password Confirmation"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <input  id="passwordConfirmation"  name="confirmpassword" value="" type="password" class="form-control" placeholder="(Keep Blank For No Change)"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                   <label for="passwordConfirmation">Re-type password</label>
                 </div>
               </div>
@@ -73,10 +108,11 @@
               <div class="form-group">
                 <div class="">
                 <select name="gender" class="selectpicker" data-style="btn-white" placeholder="Choose Gender" data-live-search="true" data-size="5" style="display: none;">
-                <?php 	$genders=array("Male","Female");
+                <?php 
+												$genders=array("Male","Female");
 												foreach($genders as $gender) {
-								?>
-										<option value="<?=$gender?>" > <?=$gender?> </option>
+									?>
+										<option value="<?=$gender?>"<?= ($gender==$i->gender) ? 'selected':''  ?> > <?=$gender?> </option>
 									<?php	} ?>
                     </select>                  
                 </div>
@@ -86,7 +122,7 @@
               <div class="form-group">
               <div class="form-control-material">
                 <label for="datepicker">Date of Birth</label>
-                <input required id="datepicker" name="birthday"  type="text" class="form-control datepicker">
+                <input  id="datepicker" name="birthday" value="<?=(!empty($i->birthday))?date("m/d/Y",strtotime($i->birthday)):"01/01/2000"?>"  type="text" class="form-control datepicker">
               </div>
              </div>
             </div>
@@ -95,7 +131,7 @@
             <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
-                  <input required id="city" type="text"  name="city" class="form-control" placeholder="City"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <input  id="city" type="text"  name="city" value="<?= $i->city ?>" class="form-control" placeholder="City"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                   <label for="city">City</label>
                 </div>
               </div>
@@ -103,7 +139,7 @@
               <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
-                  <input required id="country" type="text" name="country"  class="form-control" placeholder="Country"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <input  id="country" type="text" name="country"  value="<?= $i->country ?>"  class="form-control" placeholder="Country"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                   <label for="country">Country</label>
                 </div>
               </div>
@@ -113,15 +149,15 @@
             <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
-                  <input required id="degree" type="text" name="degree" class="form-control" placeholder="Degree Programme"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
-                  <label for="degree">Degree Programme</label>
+                  <input  id="degree" type="text" name="education"  value="<?= $i->education ?>" class="form-control" placeholder="Degree Programme"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <label for="degree">Education</label>
                 </div>
               </div>
             </div>
             <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
-                  <input required id="institute" type="text" name="institute" class="form-control" placeholder="Institute Name"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <input  id="institute" type="text" name="institute" value="<?= $i->institute ?>" class="form-control" placeholder="Institute Name"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                   <label for="institute">Institute Name</label>
                 </div>
               </div>
@@ -130,29 +166,8 @@
           <div class="row">
           <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
-                <select name="semester" class="selectpicker" data-style="btn-white" placeholder="Choose Semester" data-live-search="true" data-size="5" style="display: none;">
-                <?php 	$semesters=array("Spring","Summers","Fall");
-												foreach($semesters as $semester) {
-									?>
-										<option value="<?=$semester?>"> <?=$semester?> </option>
-									<?php	} ?>
-                    </select>                  
-                </div>
-              </div>
-            <div class="col-md-6 col-xs-12 col-sm-12">
-              <div class="form-group">
                 <div class="form-control-material">
-                  <input required id="semesteryear" type="text" name="semesteryear" class="form-control" placeholder="Semester Year"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
-                  <label for="semesteryear">Semester Year</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-          <div class="col-md-6 col-xs-12 col-sm-12">
-              <div class="form-group">
-                <div class="form-control-material">
-                  <textarea id="aboutme" type="text" name="aboutme" class="form-control" placeholder="Tell us a little about yourself"></textarea><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <textarea id="aboutme" type="text" name="aboutme" class="form-control" placeholder="Tell us a little about yourself"><?= $i->aboutme ?></textarea><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                   <label for="aboutme">Tell us a little about yourself</label>
                 </div>
               </div>
@@ -169,27 +184,23 @@
                 <?php }
                  if($status){ ?>
                 <p class="bg-green-300 text-black">
-                    You have been registered successfully ! 
+                    Updated Successfully ! 
                 </p>
                 <?php }} ?>
           </div>
           <div class="row">
-          <div class="col-md-6 col-xs-12 col-sm-12">
-              <div class="form-group text-center">
-                <div class="checkbox">
-                  <input required type="checkbox" name="tos" id="agree">
-                  <label for="agree">* I Agree with <a href="#">Terms &amp; Conditions!</a></label>
-                </div>
-              </div>
-            </div>
               <div class="text-center">
-                <button type="submit" class="btn btn-primary">Create an Account</button>
+                <button type="submit" class="btn btn-primary">Update</button>
               </div>
           </div>
         </form>
             <!-- //Signup -->
-            <a href="/login" class="btn btn-primary">Login</a>
           </div>
         </div>
+      </div>
+    </div>
+<?php include 'partials/dashnav.php' ?>
   </div>
+</div>
+</div>
 <?php include 'partials/foot.php'; ?>

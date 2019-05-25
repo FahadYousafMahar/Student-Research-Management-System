@@ -29,17 +29,15 @@
           <div class="media-left">
             <div class="bg-green-400 text-white">
               <div class="panel-body">
-                <i class="fa fa-info fa-fw fa-2x"></i>
+                <i class="fa fa-pencil fa-fw fa-2x"></i>
               </div>
             </div>
           </div>
-          <div class="media-body">
-            Your subscription ends on <span class="text-body-2">25 February 2015</span>
-          </div>
+          
           <div class="media-right media-padding">
-            <a class="btn btn-white paper-shadow relative" data-z="0.5" data-hover-z="1" data-animated="" href="#">
-            Upgrade
-        </a>
+            <a class="btn btn-white paper-shadow relative" data-z="0.5" data-hover-z="1" data-animated="" href="/addFaculty">
+            Add New Faculty Member
+            </a>
           </div>
         </div>
       </div>
@@ -75,7 +73,7 @@
                   <tr>
                     <td>
                       <div class="checkbox checkbox-single">
-                        <input id="<?=$i->id ?>" type="checkbox" checked="">
+                        <input id="<?=$i->id ?>"  name="facultyid[]" value="<?=$i->id ?>" type="checkbox" checked="">
                         <label for="<?=$i->id ?>">Label</label>
                       </div>
                     </td>

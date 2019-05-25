@@ -27,23 +27,19 @@
       <div class="panel panel-default">
         <div class="media v-middle">
           <div class="media-left">
-            <div class="bg-green-400 text-white">
+            <div class="bg-blue-400 text-white">
               <div class="panel-body">
-                <i class="fa fa-info fa-fw fa-2x"></i>
+                <i class="fa fa-magic fa-fw fa-2x"></i>
               </div>
             </div>
           </div>
-          <div class="media-body">
-            Your subscription ends on <span class="text-body-2">25 February 2015</span>
-          </div>
           <div class="media-right media-padding">
             <a class="btn btn-white paper-shadow relative" data-z="0.5" data-hover-z="1" data-animated="" href="#">
-            Upgrade
-        </a>
+            Welcome to Admin Dashboard       
+            </a>
           </div>
         </div>
       </div>
-
       <div class="row" data-toggle="isotope" style="position: relative; height: 674.4px;">
       <div class="item col-xs-12 col-lg-6" style="position: absolute; left: 435px; top: 314px;">
           <h4 class="text-headline margin-none">Faculty</h4>

@@ -29,16 +29,14 @@
           <div class="media-left">
             <div class="bg-green-400 text-white">
               <div class="panel-body">
-                <i class="fa fa-info fa-fw fa-2x"></i>
+                <i class="fa fa-pencil fa-fw fa-2x"></i>
               </div>
             </div>
           </div>
-          <div class="media-body">
-            Your subscription ends on <span class="text-body-2">25 February 2015</span>
-          </div>
+          
           <div class="media-right media-padding">
-            <a class="btn btn-white paper-shadow relative" data-z="0.5" data-hover-z="1" data-animated="" href="#">
-            Upgrade
+            <a class="btn btn-white paper-shadow relative" data-z="0.5" data-hover-z="1" data-animated="" href="/addStudent">
+            Add New Student
         </a>
           </div>
         </div>
@@ -75,7 +73,7 @@
                   <tr>
                     <td>
                       <div class="checkbox checkbox-single">
-                        <input id="<?=$i->id ?>" type="checkbox" checked="">
+                        <input id="<?=$i->id ?>" name="studentsid[]" value="<?=$i->id ?>"  type="checkbox" checked="">
                         <label for="<?=$i->id ?>">Label</label>
                       </div>
                     </td>
@@ -86,8 +84,8 @@
                     <td class="text-capitalize"><?=$i->semester.', '.$i->semesteryear?></td>
                     <td class="text-capitalize"><?=$i->institute ?></td>
                     <td class="text-right">
-                      <a href="/editFaculty/<?= $i->id ?>" class="btn btn-default btn-xs ripple" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><span class="ink animate" style="height: 22px; width: 22px; top: -4px; left: -6.1875px;"></span><i class="fa fa-pencil"></i></a>
-                      <a href="/deleteFaculty/<?= $i->id ?>" class="btn btn-danger btn-xs ripple" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><span class="ink animate" style="height: 22px; width: 22px; top: 1px; left: 2.3125px;"></span><i class="fa fa-times"></i></a>
+                      <a href="/editStudent/<?= $i->id ?>" class="btn btn-default btn-xs ripple" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><span class="ink animate" style="height: 22px; width: 22px; top: -4px; left: -6.1875px;"></span><i class="fa fa-pencil"></i></a>
+                      <a href="/deleteStudent/<?= $i->id ?>" class="btn btn-danger btn-xs ripple" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><span class="ink animate" style="height: 22px; width: 22px; top: 1px; left: 2.3125px;"></span><i class="fa fa-times"></i></a>
                     </td>
                   </tr>
                   <?php endforeach; endif;?>
