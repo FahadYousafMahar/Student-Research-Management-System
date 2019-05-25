@@ -305,7 +305,7 @@ class PagesController
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        
+
         $title  = '404 - Page Not Found';
         return view('404', compact('title'));
     }
@@ -365,13 +365,13 @@ class PagesController
             $errors = array();
             $status = false;
             $validate = GUMP::is_valid($_POST, array(
-   'title'        => 'required',
-   'price'        => 'required|numeric',
-   'category'      => 'required',
-   'availability'   => 'required',
-   'description'    => 'required',
-   'address'        => 'required'
-  ));
+            'title'        => 'required',
+            'price'        => 'required|numeric',
+            'category'      => 'required',
+            'availability'   => 'required',
+            'description'    => 'required',
+            'address'        => 'required'
+            ));
 
             if ($validate === true) {
                 if (!isset($_FILES['pic'])) {

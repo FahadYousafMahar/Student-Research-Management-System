@@ -141,10 +141,9 @@
         </div>
       </div>
       <!-- /.navbar-collapse -->
-
     </div>
   </div>
-
+<div style="padding-top: 100px;"></div>
 <?php  
 // echo (!empty($_SESSION['profilepic'])) ?
 //                         App::get('Image')->make('./App/Data/images/users/'.$_SESSION['profilepic'].'.jpg')->fit(36, 36)->stream('data-url'):

@@ -1,11 +1,7 @@
-<!DOCTYPE html>
 <?php include 'partials/head.php'; ?>
-    <body>
+<body class="breakpoint-1024">
 <?php include 'partials/nav.php'; ?>
-<br>
-<br>
-<br>
-<div class="parallax page-section bg-blue-300 mt-4">
+<div class="parallax page-section bg-blue-300">
     <div class="container parallax-layer" data-opacity="true" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
       <div class="media media-grid v-middle">
         <div class="media-left">
@@ -20,7 +16,7 @@
   </div>
   <div class="page-section parallax relative overflow-hidden">
     <div class="container">
-      <div class="panel margin-none panel-default paper-shadow max-width-400 h-center" data-z="0.5">
+      <div class="panel  mt-md-5 panel-default paper-shadow max-width-400 h-center" data-z="0.5">
         <div class="panel-heading">
           <h4 class="text-headline">Send a message</h4>
         </div>

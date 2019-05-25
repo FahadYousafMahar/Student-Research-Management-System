@@ -14,6 +14,9 @@
     $routes ->post('login'   , 'PagesController@loginProcess');
     $routes ->post('register'   , 'PagesController@registerProcess');
 
+ // StudentController
+    $routes ->get('registerstudent'   , 'StudentController@registerstudent');
+    $routes ->post('registerstudent'   , 'StudentController@registerstudentProcess');
    
     // $routes ->get('admin'    , 'PagesController@admin');
     // $routes ->get('adminpanel'    , 'PagesController@adminpanel');

@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title><?= $title ?></title>
-  
+
   <!-- Vendor CSS BUNDLE
     Includes styling for all of the 3rd party libraries used with this module, such as Bootstrap, Font Awesome and others.
     TIP: Using bundles will improve performance by reducing the number of network requests the client needs to make when loading the page. -->
@@ -41,6 +41,7 @@ NOTE:
       See src/less/themes/html/app.less
 TIP:
     - Using bundles will improve performance by greatly reducing the number of network requests the client needs to make when loading the page. -->
+	<!-- <link rel="stylesheet" type="text/css" href="/App/Views/css/bootstrap.css"> -->
 	<link href="/App/Views/css/app/app.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="/App/Views/css/noty.css">
 	<link rel="stylesheet" type="text/css" href="/App/Views/css/metroui.css">
@@ -55,20 +56,20 @@ This variant is to be used when loading the separate styling modules -->
     Some of the standalone modules may have not been used with the current theme/module
     but ALL modules are 100% compatible -->
 
-  <!-- <link href="/App/Views/css/app/essentials.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/material.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/layout.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/sidebar.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/sidebar-skins.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/navbar.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/messages.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/media.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/charts.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/maps.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/colors-alerts.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/colors-background.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/colors-buttons.css" rel="stylesheet" /> -->
-  <!-- <link href="/App/Views/css/app/colors-text.css" rel="stylesheet" /> -->
+  <!-- <link href="/App/Views/css/app/essentials.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/material.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/layout.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/sidebar.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/sidebar-skins.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/navbar.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/messages.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/media.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/charts.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/maps.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/colors-alerts.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/colors-background.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/colors-buttons.css" rel="stylesheet" />
+  <link href="/App/Views/css/app/colors-text.css" rel="stylesheet" /> -->
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
 WARNING: Respond.js doesn't work if you view the page via file:// -->

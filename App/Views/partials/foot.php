@@ -53,7 +53,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <strong>Learning</strong> v1.1.0 &copy; Copyright 2015
+    <strong>searchResearch</strong> v1.1.0 &copy; Copyright <?= date('Y') ?>
   </footer>
   <!-- // Footer -->
 
@@ -119,6 +119,7 @@
     Includes Custom Application JavaScript used for the current theme/module;
     Do not use it simultaneously with the standalone modules below. -->
   	<script src="/App/Views/js/app/app.js"></script>
+
   	<script src="/App/Views/js/bounce.min.js"></script>
 	<script src="/App/Views/js/noty.min.js"></script>
 	<script src="/App/Views/js/jquery.imgareaselect.min.js"></script>

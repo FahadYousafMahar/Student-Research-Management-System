@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php include 'partials/head.php'; ?>
     <body>
   <?php include 'partials/nav.php'; ?>
