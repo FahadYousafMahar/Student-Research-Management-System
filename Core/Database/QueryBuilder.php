@@ -62,7 +62,6 @@ class QueryBuilder{
         $string.="', ";
     }
     $sql = trim(trim($string),',')." where $col = '{$val}'";
-    echo $sql;
     $statement = $this->pdo->prepare($sql);
     return $myvar = $statement->execute($parameters);
   }

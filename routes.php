@@ -12,10 +12,22 @@
     $routes ->post('login'   , 'PagesController@loginProcess');
 
  // StudentController
+     $routes ->get('Student'   , 'StudentController@Student');
+     $routes ->get('addPaper'   , 'StudentController@addpaper');
+     $routes ->get('viewpapers'   , 'StudentController@viewpapers');
+     $routes ->get('viewPaper'   , 'StudentController@viewpaper');
+     $routes ->get('deletePaper'   , 'StudentController@deletePaper');
+     $routes ->get('editPaper'   , 'StudentController@editPaper');
+
     $routes ->get('registerstudent'   , 'StudentController@registerstudent');
+    
+    $routes ->post('editPaper'   , 'StudentController@editpaperprocess');
     $routes ->post('registerstudent'   , 'StudentController@registerstudentProcess');
+    $routes ->post('addPaper'   , 'StudentController@addpaperprocess');
 
 // FacultyController
+    $routes ->get('Faculty'   , 'FacultyController@Faculty');
+
     $routes ->get('registerfaculty'   , 'FacultyController@registerfaculty');
     $routes ->post('registerfaculty'   , 'FacultyController@registerfacultyProcess');
    
@@ -45,44 +57,6 @@
     $routes ->post('addStudent'   , 'AdminController@addstudentprocess');
     $routes ->post('addAdmin'   , 'AdminController@addadminprocess');
     $routes ->post('addFaculty'   , 'AdminController@addfacultyprocess');
-
-
-    // $routes ->get('admin'    , 'PagesController@admin');
-    // $routes ->get('adminpanel'    , 'PagesController@adminpanel');
-
-    // $routes ->post('contact' , 'PagesController@contactmessage');
-
-    // $routes ->post('registerVendor'   , 'PagesController@registerVendorProcess');
-
-    // $routes ->post('loginVendor'   , 'PagesController@loginVendorProcess');
-
-    // $routes ->post('sellproduct'   , 'PagesController@customersellProcess');
-    // $routes ->post('addcategory'    , 'PagesController@category');
-    // $routes ->post('admin'    , 'PagesController@adminlogin');
-   
-    //ProfileController
-    $routes ->get('about'   , 'ProfileController@about');
-    $routes ->get('setting'   , 'ProfileController@youraccount');
-    $routes ->get('changepassword'   , 'ProfileController@changepasswordform');
-    $routes ->get('friends'   , 'ProfileController@friends');
-    $routes ->get('birthdays'   , 'ProfileController@friendbirthday');
-    $routes ->get('messages'   , 'ProfileController@messages');
-
-    $routes ->post('setting'    , 'ProfileController@settingProcess');
-
-
-
-    //OperationController
-    $routes ->get('searchapi' , 'OperationController@searchapi');
-
-    $routes ->post('addcomment' , 'OperationController@addcomment');
-    $routes ->post('addmessage' , 'OperationController@addmessage');
-    $routes ->post('changepassword'   , 'OperationController@changepassword');
-    $routes ->post('returnheaderimage' , 'OperationController@returnheaderimage');
-    $routes ->post('setheaderimage' , 'OperationController@setheaderimage');
-    $routes ->post('returnprofileimage' , 'OperationController@returnprofileimage');
-    $routes ->post('setprofileimage' , 'OperationController@setprofileimage');
-
 
 //
 $routes ->get('phpinfo','PagesController@phpinfo');

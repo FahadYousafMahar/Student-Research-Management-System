@@ -129,9 +129,21 @@ $(document).ready(function () {
     //     })
     // });
 
-
+    $('#summernote').summernote({ toolbar: [
+        // [groupName, [list of button]]
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']]
+      ]});
+    $('#selector').select2();
     // // Attahcing  Cover photo uploader
-
+    $("#addfile").click(function(e) {
+        e.preventDefault();
+        $(this).closest('form').find('input[type="file"]').trigger('click');
+    });
     $("#addPhotoInput").click(function(e) {
         e.preventDefault();
         $(this).closest('form').find('input[type="file"]').trigger('click');

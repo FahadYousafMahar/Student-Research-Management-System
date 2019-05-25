@@ -124,6 +124,7 @@
 	<script src="/App/Views/js/noty.min.js"></script>
 	<script src="/App/Views/js/jquery.imgareaselect.min.js"></script>
 	<script src="/App/Views/js/myOwn.js"></script>
+	<script src="/App/Views/js/summernote.js"></script>
 
   <!-- App Scripts Standalone Modules
     As a convenience, we provide the entire UI framework broke down in separate modules

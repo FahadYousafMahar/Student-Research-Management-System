@@ -47,6 +47,8 @@ TIP:
 	<link rel="stylesheet" type="text/css" href="/App/Views/css/metroui.css">
 	<link rel="stylesheet" type="text/css" href="/App/Views/css/fonts.min.css">
 	<link rel="stylesheet" type="text/css" href="/App/Views/css/imgareaselect-default.css">
+	<link rel="stylesheet" type="text/css" href="/App/Views/css/summernote.css">
+  
   <!-- App CSS CORE
 This variant is to be used when loading the separate styling modules -->
   <!-- <link href="/App/Views/css/app/main.css" rel="stylesheet"> -->
