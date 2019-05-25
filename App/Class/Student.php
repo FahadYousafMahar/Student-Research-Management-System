@@ -15,6 +15,7 @@ public $city;
 public $country;
 public $degree;
 public $semester;
+public $semesteryear;
 public $institute;
 public $aboutme;
 public $status;

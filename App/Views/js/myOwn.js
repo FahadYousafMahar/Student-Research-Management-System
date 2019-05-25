@@ -2,296 +2,296 @@ $(document).ready(function () {
 
     // Toggling Nearest Comment Form
 
-    $(".comments-list").toggle();
-    $(".toggle-comments").click(function () {
-        $(this).closest(".ui-block").find(".comments-list").toggle("slow");
-    });
+    // $(".comments-list").toggle();
+    // $(".toggle-comments").click(function () {
+    //     $(this).closest(".ui-block").find(".comments-list").toggle("slow");
+    // });
 
-    // Post Date On Mouse Enter/Leave
-    $(".post__date > .published").mouseover(function () {
-        var temp = $(this).attr("datetime");
-        $(this).attr("datetime", $(this).text());
-        $(this).text(temp);
-    }).mouseleave(function () {
-        var temp = $(this).attr("datetime");
-        $(this).attr("datetime", $(this).text());
-        $(this).text(temp);
-    });
+    // // Post Date On Mouse Enter/Leave
+    // $(".post__date > .published").mouseover(function () {
+    //     var temp = $(this).attr("datetime");
+    //     $(this).attr("datetime", $(this).text());
+    //     $(this).text(temp);
+    // }).mouseleave(function () {
+    //     var temp = $(this).attr("datetime");
+    //     $(this).attr("datetime", $(this).text());
+    //     $(this).text(temp);
+    // });
 
-    // Submitting Comments
-    $('.submit-comments').click(function (e) {
-        e.preventDefault();
-        var commentForm = $(this).closest('.comment-form');
-        $.ajax({
-            type: 'POST',
-            url: '/addcomment',
-            dataType: 'JSON',
-            data: commentForm.serialize(),
-            success: function (msg) {
-                $(commentForm).find('textarea').val('');
-                notyalert(msg.type, msg.body);
-                location.reload();
-            },
-            error: function () {
-                notyalert("error", "An Error Occurred");
+    // // Submitting Comments
+    // $('.submit-comments').click(function (e) {
+    //     e.preventDefault();
+    //     var commentForm = $(this).closest('.comment-form');
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/addcomment',
+    //         dataType: 'JSON',
+    //         data: commentForm.serialize(),
+    //         success: function (msg) {
+    //             $(commentForm).find('textarea').val('');
+    //             notyalert(msg.type, msg.body);
+    //             location.reload();
+    //         },
+    //         error: function () {
+    //             notyalert("error", "An Error Occurred");
 
-            }
-        })
-    });
+    //         }
+    //     })
+    // });
 
-    // //Refreshing Comments
-    // function refreshComment() {
+    // // //Refreshing Comments
+    // // function refreshComment() {
+    // //     var url = $(location).attr('pathname');
+    // //     if (url.indexOf("timeline") > -1) {
+    // //         var oldComment = $(".comments-list:first").html();
+    // //         $.ajax({
+    // //             type: 'GET',
+    // //             url: '',
+    // //             dataType: 'html',
+    // //             success: function (data) {
+    // //                 var newComment = $(data).find(".comments-list:first").html();
+    // //                 console.log("OldChat" + oldComment);
+    // //                 console.log(newComment);
+    // //                 if ($.trim(oldComment) != $.trim(newComment)) {
+    // //                     $(".comments-list:first").html(newComment);
+    // //                 }
+    // //                 setTimeout(refreshComment, 5 * 1000);
+    // //             }
+    // //         })
+    // //     }
+    // // }
+    // // refreshComment();
+
+    // // Replying to Chat
+    // $('.submit-message').click(function (e) {
+    //     e.preventDefault();
+    //     var messageForm = $(this).closest('form');
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/addmessage',
+    //         dataType: 'JSON',
+    //         data: messageForm.serialize(),
+    //         success: function (msg) {
+    //             $(messageForm).find('textarea').val('');
+    //         },
+    //         error: function () {
+    //             notyalert("error", "An Error Occurred");
+
+    //         }
+    //     })
+    // });
+
+    // //Refreshing Chat
+    // function refreshChat() {
     //     var url = $(location).attr('pathname');
-    //     if (url.indexOf("timeline") > -1) {
-    //         var oldComment = $(".comments-list:first").html();
+    //     if (url.indexOf("messages") > -1) {
+    //         var previousChat = $('.milanMessageBox').html();
     //         $.ajax({
     //             type: 'GET',
     //             url: '',
     //             dataType: 'html',
     //             success: function (data) {
-    //                 var newComment = $(data).find(".comments-list:first").html();
-    //                 console.log("OldChat" + oldComment);
-    //                 console.log(newComment);
-    //                 if ($.trim(oldComment) != $.trim(newComment)) {
-    //                     $(".comments-list:first").html(newComment);
+    //                 var newChat = $(data).find(".milanMessageBox").html();
+    //                 console.log("OldChat" + previousChat);
+    //                 console.log(newChat);
+    //                 if ($.trim(previousChat) != $.trim(newChat)) {
+    //                     $(".milanMessageBox").html(newChat);
+    //                     $(".mCustomScrollbar").scrollTop($(".mCustomScrollbar").prop("scrollHeight")*100);
+    //                     $(".mCustomScrollbar").perfectScrollbar('update');
     //                 }
-    //                 setTimeout(refreshComment, 5 * 1000);
     //             }
     //         })
+    //         setTimeout(refreshChat, 5 * 1000);
     //     }
     // }
-    // refreshComment();
+    // refreshChat();
+    // $(".mCustomScrollbar").scrollTop($(".mCustomScrollbar").prop("scrollHeight")*100);
+    // $(".mCustomScrollbar").perfectScrollbar('update');
 
-    // Replying to Chat
-    $('.submit-message').click(function (e) {
-        e.preventDefault();
-        var messageForm = $(this).closest('form');
-        $.ajax({
-            type: 'POST',
-            url: '/addmessage',
-            dataType: 'JSON',
-            data: messageForm.serialize(),
-            success: function (msg) {
-                $(messageForm).find('textarea').val('');
-            },
-            error: function () {
-                notyalert("error", "An Error Occurred");
+    // // Changing Password
 
-            }
-        })
-    });
-
-    //Refreshing Chat
-    function refreshChat() {
-        var url = $(location).attr('pathname');
-        if (url.indexOf("messages") > -1) {
-            var previousChat = $('.milanMessageBox').html();
-            $.ajax({
-                type: 'GET',
-                url: '',
-                dataType: 'html',
-                success: function (data) {
-                    var newChat = $(data).find(".milanMessageBox").html();
-                    console.log("OldChat" + previousChat);
-                    console.log(newChat);
-                    if ($.trim(previousChat) != $.trim(newChat)) {
-                        $(".milanMessageBox").html(newChat);
-                        $(".mCustomScrollbar").scrollTop($(".mCustomScrollbar").prop("scrollHeight")*100);
-                        $(".mCustomScrollbar").perfectScrollbar('update');
-                    }
-                }
-            })
-            setTimeout(refreshChat, 5 * 1000);
-        }
-    }
-    refreshChat();
-    $(".mCustomScrollbar").scrollTop($(".mCustomScrollbar").prop("scrollHeight")*100);
-    $(".mCustomScrollbar").perfectScrollbar('update');
-
-    // Changing Password
-
-    $('.btnChangePassword').click(function (e) {
-        var frm = $(this).closest('.changePasswordForm');
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '/changepassword',
-            dataType: 'JSON',
-            data: frm.closest('.changePasswordForm').serialize(),
-            success: function (msg) {
-                notyalert(msg.type, msg.body);
-                resetFormElements(frm);
-            },
-            error: function () {
-                notyalert("error", "An Error Occurred");
-                resetFormElements(frm);
-            }
-        })
-    });
+    // $('.btnChangePassword').click(function (e) {
+    //     var frm = $(this).closest('.changePasswordForm');
+    //     e.preventDefault();
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/changepassword',
+    //         dataType: 'JSON',
+    //         data: frm.closest('.changePasswordForm').serialize(),
+    //         success: function (msg) {
+    //             notyalert(msg.type, msg.body);
+    //             resetFormElements(frm);
+    //         },
+    //         error: function () {
+    //             notyalert("error", "An Error Occurred");
+    //             resetFormElements(frm);
+    //         }
+    //     })
+    // });
 
 
-    // Attahcing  Cover photo uploader
+    // // Attahcing  Cover photo uploader
 
-    $(".btnUploadHeader").click(function () {
-        $(this).closest('.modal-body').find('input[type="file"]').trigger('click');
-    });
+    // $(".btnUploadHeader").click(function () {
+    //     $(this).closest('.modal-body').find('input[type="file"]').trigger('click');
+    // });
 
-    $(".header-form").find('input[type="file"]').change(function (e) {
-        $.ajax({
-            url: 'http://milan.pk/returnheaderimage',
-            type: 'POST',
-            data: new FormData($(this).closest("form")[0]),
-            dataType: 'JSON',
-            cache: false,
-            contentType: false,
-            processData: false,
-            error: function (msg) {
-                notyalert("error", "An Error Occurred In Uploading Header Cover !");
-            },
-            success: function (msg) {
-                if (msg.type == "success") {
-                    $(".selectedfile").attr("src", msg.body);
-                    $(".selectedfile").removeClass('d-none').addClass('img-thumbnail img-responsive');
-                    $(".crop-upload-header").removeClass('d-none');
-                    $(".selectedfile").imgAreaSelect({
-                        imageWidth: 768,
-                        maxWidth: 1920,
-                        maxHeight: 640,
-                        aspectRatio: '27:9',
-                        onSelectEnd: function (img, selection) {
-                            $('input[name="x1"]').val(selection.x1);
-                            $('input[name="y1"]').val(selection.y1);
-                            $('input[name="w"]').val(selection.width);
-                            $('input[name="h"]').val(selection.height);
+    // $(".header-form").find('input[type="file"]').change(function (e) {
+    //     $.ajax({
+    //         url: 'http://milan.pk/returnheaderimage',
+    //         type: 'POST',
+    //         data: new FormData($(this).closest("form")[0]),
+    //         dataType: 'JSON',
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false,
+    //         error: function (msg) {
+    //             notyalert("error", "An Error Occurred In Uploading Header Cover !");
+    //         },
+    //         success: function (msg) {
+    //             if (msg.type == "success") {
+    //                 $(".selectedfile").attr("src", msg.body);
+    //                 $(".selectedfile").removeClass('d-none').addClass('img-thumbnail img-responsive');
+    //                 $(".crop-upload-header").removeClass('d-none');
+    //                 $(".selectedfile").imgAreaSelect({
+    //                     imageWidth: 768,
+    //                     maxWidth: 1920,
+    //                     maxHeight: 640,
+    //                     aspectRatio: '27:9',
+    //                     onSelectEnd: function (img, selection) {
+    //                         $('input[name="x1"]').val(selection.x1);
+    //                         $('input[name="y1"]').val(selection.y1);
+    //                         $('input[name="w"]').val(selection.width);
+    //                         $('input[name="h"]').val(selection.height);
 
-                        }
-                    })
-                } else {
-                    notyalert(msg.type, msg.body);
-                }
-            }
-        });
-    });
+    //                     }
+    //                 })
+    //             } else {
+    //                 notyalert(msg.type, msg.body);
+    //             }
+    //         }
+    //     });
+    // });
 
-    $('.cropuploadlabel').click(function () {
-        $.ajax({
-            url: 'http://milan.pk/setheaderimage',
-            type: 'POST',
-            data: $('.header-crop').serialize(),
-            dataType: 'JSON',
-            error: function (msg) {
-                notyalert("error", "An Error Occurred In Saving Header Cover !");
-            },
-            success: function (msg) {
-                notyalert(msg.type, msg.body);
-                location.reload();
-            }
-        });
-    });
+    // $('.cropuploadlabel').click(function () {
+    //     $.ajax({
+    //         url: 'http://milan.pk/setheaderimage',
+    //         type: 'POST',
+    //         data: $('.header-crop').serialize(),
+    //         dataType: 'JSON',
+    //         error: function (msg) {
+    //             notyalert("error", "An Error Occurred In Saving Header Cover !");
+    //         },
+    //         success: function (msg) {
+    //             notyalert(msg.type, msg.body);
+    //             location.reload();
+    //         }
+    //     });
+    // });
 
-    // Profile Upload
+    // // Profile Upload
 
-    var $searchSelectize = $(".profile-form").find('input[type="file"]').change(function () {
-        $.ajax({
-            url: 'http://milan.pk/returnprofileimage',
-            type: 'POST',
-            data: new FormData($(".profile-form")[0]),
-            dataType: 'JSON',
-            cache: false,
-            contentType: false,
-            processData: false,
-            error: function (msg) {
-                notyalert("error", "An Error Occurred In Uploading Profile Pic !");
-            },
-            success: function (msg) {
-                if (msg.type == "success") {
-                    $(".selectedfileprofile").attr("src", msg.body);
-                    $(".selectedfileprofile").removeClass('d-none').addClass('img-thumbnail img-responsive');
-                    $(".crop-upload-profile").removeClass('d-none');
-                    $(".selectedfileprofile").imgAreaSelect({
-                        imgWidth: 120,
-                        maxWidth: 400,
-                        maxHeight: 400,
-                        aspectRatio: '1:1',
-                        onSelectEnd: function (img, selection) {
-                            $('input[name="x1"]').val(selection.x1);
-                            $('input[name="y1"]').val(selection.y1);
-                            $('input[name="w"]').val(selection.width);
-                            $('input[name="h"]').val(selection.height);
-                        }
-                    })
-                } else {
-                    notyalert(msg.type, msg.body);
-                }
-            }
-        });
-    });
+    // var $searchSelectize = $(".profile-form").find('input[type="file"]').change(function () {
+    //     $.ajax({
+    //         url: 'http://milan.pk/returnprofileimage',
+    //         type: 'POST',
+    //         data: new FormData($(".profile-form")[0]),
+    //         dataType: 'JSON',
+    //         cache: false,
+    //         contentType: false,
+    //         processData: false,
+    //         error: function (msg) {
+    //             notyalert("error", "An Error Occurred In Uploading Profile Pic !");
+    //         },
+    //         success: function (msg) {
+    //             if (msg.type == "success") {
+    //                 $(".selectedfileprofile").attr("src", msg.body);
+    //                 $(".selectedfileprofile").removeClass('d-none').addClass('img-thumbnail img-responsive');
+    //                 $(".crop-upload-profile").removeClass('d-none');
+    //                 $(".selectedfileprofile").imgAreaSelect({
+    //                     imgWidth: 120,
+    //                     maxWidth: 400,
+    //                     maxHeight: 400,
+    //                     aspectRatio: '1:1',
+    //                     onSelectEnd: function (img, selection) {
+    //                         $('input[name="x1"]').val(selection.x1);
+    //                         $('input[name="y1"]').val(selection.y1);
+    //                         $('input[name="w"]').val(selection.width);
+    //                         $('input[name="h"]').val(selection.height);
+    //                     }
+    //                 })
+    //             } else {
+    //                 notyalert(msg.type, msg.body);
+    //             }
+    //         }
+    //     });
+    // });
 
-    $('.cropuploadprofilelabel').click(function () {
-        $.ajax({
-            url: 'http://milan.pk/setprofileimage',
-            type: 'POST',
-            data: $('.profile-crop').serialize(),
-            dataType: 'JSON',
-            error: function (msg) {
-                notyalert("error", "An Error Occurred In Saving Header Cover !");
-            },
-            success: function (msg) {
-                notyalert(msg.type, msg.body);
-                location.reload();
+    // $('.cropuploadprofilelabel').click(function () {
+    //     $.ajax({
+    //         url: 'http://milan.pk/setprofileimage',
+    //         type: 'POST',
+    //         data: $('.profile-crop').serialize(),
+    //         dataType: 'JSON',
+    //         error: function (msg) {
+    //             notyalert("error", "An Error Occurred In Saving Header Cover !");
+    //         },
+    //         success: function (msg) {
+    //             notyalert(msg.type, msg.body);
+    //             location.reload();
 
-            }
-        });
-    });
+    //         }
+    //     });
+    // });
 
-    // User Search
-    $('.js-user-search').selectize({
-        valueField: 'username',
-        labelField: 'fullname',
-        searchField: ['username'],
-        highlight: true,
-        closeAfterSelect: false,
-        hideSelected: true,
-        mode: 'single',
-        create: true,
-        render: {
-            option_create: function (data, escape) {
-                return '<div class="create">Search for <strong>' + escape(data.input) + '... </strong>&hellip;</div>';
-            },
-            option: function (item, escape) {
-                return '<div class="inline-items">' +
-                    (item.profilepic ? '<div class="author-thumb"><img height="42" width="42" src="/app/data/images/users/' + escape(item.profilepic) + '.jpg" alt="avatar"></div>' : '') +
-                    '<div class="notification-event">' +
-                    (item.fullname ? '<span class="h6 notification-friend"></a>' + escape(item.fullname) + '</span>' : '') +
-                    (item.city ? '<span class="chat-message-item">' + escape(item.city) + ',' + escape(item.country) + '</span>' : '') +
-                    '</div>' +
-                    (item.createdat ? '<span class="notification-icon">' + escape(item.createdat) + '</span>' : '') +
-                    '</div>';
-            },
-        },
-        load: function (query, callback) {
-            if (!query.length) return callback();
-            $.ajax({
-                url: 'http://milan.pk/searchapi/' + encodeURIComponent(query),
-                type: 'GET',
-                dataType: "json",
-                error: function () {
-                    callback();
-                },
-                success: function (res) {
-                    callback(res.users.slice(0, 10));
-                }
-            });
-        },
-        onDropdownOpen: function () {
-            $('.selectize-dropdown-content').on('mousedown', 'div[data-selectable]', function (event) {
-                var myform = $(this).closest("form");
-                setTimeout(function () {
-                    myform.submit();
-                }, 1);
-            });
-        }
-    });
+    // // User Search
+    // $('.js-user-search').selectize({
+    //     valueField: 'username',
+    //     labelField: 'fullname',
+    //     searchField: ['username'],
+    //     highlight: true,
+    //     closeAfterSelect: false,
+    //     hideSelected: true,
+    //     mode: 'single',
+    //     create: true,
+    //     render: {
+    //         option_create: function (data, escape) {
+    //             return '<div class="create">Search for <strong>' + escape(data.input) + '... </strong>&hellip;</div>';
+    //         },
+    //         option: function (item, escape) {
+    //             return '<div class="inline-items">' +
+    //                 (item.profilepic ? '<div class="author-thumb"><img height="42" width="42" src="/app/data/images/users/' + escape(item.profilepic) + '.jpg" alt="avatar"></div>' : '') +
+    //                 '<div class="notification-event">' +
+    //                 (item.fullname ? '<span class="h6 notification-friend"></a>' + escape(item.fullname) + '</span>' : '') +
+    //                 (item.city ? '<span class="chat-message-item">' + escape(item.city) + ',' + escape(item.country) + '</span>' : '') +
+    //                 '</div>' +
+    //                 (item.createdat ? '<span class="notification-icon">' + escape(item.createdat) + '</span>' : '') +
+    //                 '</div>';
+    //         },
+    //     },
+    //     load: function (query, callback) {
+    //         if (!query.length) return callback();
+    //         $.ajax({
+    //             url: 'http://milan.pk/searchapi/' + encodeURIComponent(query),
+    //             type: 'GET',
+    //             dataType: "json",
+    //             error: function () {
+    //                 callback();
+    //             },
+    //             success: function (res) {
+    //                 callback(res.users.slice(0, 10));
+    //             }
+    //         });
+    //     },
+    //     onDropdownOpen: function () {
+    //         $('.selectize-dropdown-content').on('mousedown', 'div[data-selectable]', function (event) {
+    //             var myform = $(this).closest("form");
+    //             setTimeout(function () {
+    //                 myform.submit();
+    //             }, 1);
+    //         });
+    //     }
+    // });
 
 
     function resetFormElements(frm) {
