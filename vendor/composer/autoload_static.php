@@ -294,6 +294,7 @@ class ComposerStaticInitf67b94ece1491b16d76ef66cfcec243a
         'Myweb\\Classes\\Message' => __DIR__ . '/../..' . '/App/Class/Message.php',
         'Myweb\\Classes\\Paper' => __DIR__ . '/../..' . '/App/Class/Paper.php',
         'Myweb\\Classes\\Student' => __DIR__ . '/../..' . '/App/Class/Student.php',
+        'Myweb\\Controllers\\AdminController' => __DIR__ . '/../..' . '/App/Controllers/AdminController.php',
         'Myweb\\Controllers\\FacultyController' => __DIR__ . '/../..' . '/App/Controllers/FacultyController.php',
         'Myweb\\Controllers\\OperationController' => __DIR__ . '/../..' . '/App/Controllers/OperationController.php',
         'Myweb\\Controllers\\PagesController' => __DIR__ . '/../..' . '/App/Controllers/PagesController.php',

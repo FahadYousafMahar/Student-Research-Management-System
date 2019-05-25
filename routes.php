@@ -5,14 +5,14 @@
     $routes ->get('home'    , 'PagesController@home');
     $routes ->get('login'   , 'PagesController@login');
     $routes ->get('logout'   , 'PagesController@logout');
-    $routes ->get('register'   , 'PagesController@register');
+    $routes ->get('dashboard'   , 'PagesController@dashboard');
     $routes ->get('404'   , 'PagesController@pagenotfound');
-    $routes ->get('search'    , 'PagesController@search');
-    $routes ->get('timeline'    , 'PagesController@timeline');
-    $routes ->get('wish'    , 'PagesController@wish');
+    // $routes ->get('search'    , 'PagesController@search');
+    // $routes ->get('timeline'    , 'PagesController@timeline');
+    // $routes ->get('wish'    , 'PagesController@wish');
 
     $routes ->post('login'   , 'PagesController@loginProcess');
-    $routes ->post('register'   , 'PagesController@registerProcess');
+    // $routes ->post('register'   , 'PagesController@registerProcess');
 
  // StudentController
     $routes ->get('registerstudent'   , 'StudentController@registerstudent');
@@ -22,6 +22,15 @@
     $routes ->get('registerfaculty'   , 'FacultyController@registerfaculty');
     $routes ->post('registerfaculty'   , 'FacultyController@registerfacultyProcess');
    
+// AdminController
+    $routes ->get('Admin'   , 'AdminController@Admin');
+    $routes ->get('viewfaculty'   , 'AdminController@viewfaculty');
+    $routes ->get('viewstudents'   , 'AdminController@viewstudents');
+    $routes ->get('viewadmins'   , 'AdminController@viewadmins');
+
+    $routes ->post('registerfaculty'   , 'AdminController@registerfacultyProcess');
+
+
     // $routes ->get('admin'    , 'PagesController@admin');
     // $routes ->get('adminpanel'    , 'PagesController@adminpanel');
 

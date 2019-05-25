@@ -197,6 +197,7 @@ return array(
     'Myweb\\Classes\\Message' => $baseDir . '/App/Class/Message.php',
     'Myweb\\Classes\\Paper' => $baseDir . '/App/Class/Paper.php',
     'Myweb\\Classes\\Student' => $baseDir . '/App/Class/Student.php',
+    'Myweb\\Controllers\\AdminController' => $baseDir . '/App/Controllers/AdminController.php',
     'Myweb\\Controllers\\FacultyController' => $baseDir . '/App/Controllers/FacultyController.php',
     'Myweb\\Controllers\\OperationController' => $baseDir . '/App/Controllers/OperationController.php',
     'Myweb\\Controllers\\PagesController' => $baseDir . '/App/Controllers/PagesController.php',

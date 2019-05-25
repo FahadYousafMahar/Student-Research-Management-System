@@ -17,7 +17,7 @@ class PagesController
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        if (isset($_SESSION['username']) && $_SESSION["type"]) {
+        if (isset($_SESSION['email']) && $_SESSION["type"]) {
             header("Location: /dashboard");
         }else{
 
@@ -33,7 +33,7 @@ class PagesController
     //         session_start();
     //     }
         
-    //     if (isset($_SESSION['username']) && $_SESSION['type']=='user') {
+    //     if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
     //         try {
     //             if (!isset($_GET['username'])) {
     //                 nextpagealert("warning", "I can not find a person without name !");
@@ -153,19 +153,15 @@ class PagesController
         $errors = array();
         $status = false;
         if(isset($_POST['type']) && !empty($_POST['email']) && !empty($_POST['password'])){
-            
                 try {
                 $row = App::get('database')->selectOne(strtolower($_POST['type']), $_POST['type'], 'email', $_POST['email']);
                 if (isset($row[0])) {
                     if ($_POST['email'] == $row[0]->email && sha1(md5($_POST['password'])) == $row[0]->password) {
-                        if (session_status() !== PHP_SESSION_ACTIVE) {
-                            session_start();
-                        }
                         foreach ($row[0] as $key => $value) {
                             $_SESSION[$key] = $value;
                         }
-                        $_SESSION["type"] = $_POST['type'];
-                        header('Location: /dashboard');
+                        $_SESSION['type'] = $_POST['type'];
+                        \header("Location: /dashboard");
                     } else {
                         $status = false;
                         array_push($errors, "Eamil or Password do not match.");
@@ -184,9 +180,21 @@ class PagesController
             nextpagealert("error","Please fill all fields.");
         }
         $status = false;
-        
         $title  = 'Login';
         return view('login', compact('title', 'status', 'errors'));
+    }
+
+    public function dashboard()
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+                header("Location: /".$_SESSION['type']);
+        } else {
+            header('Location: /login');
+
+        }
     }
 
     public function admin()
@@ -194,7 +202,7 @@ class PagesController
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        if (isset($_SESSION['username']) && $_SESSION['type']=='admin') {
+        if (isset($_SESSION['email']) && $_SESSION['type']=='admin') {
             header('Location: /adminpanel');
         } else {
             $title  = 'Login as Admin';
@@ -237,7 +245,7 @@ class PagesController
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        if (isset($_SESSION['username']) && $_SESSION['type']=='admin') {
+        if (isset($_SESSION['email']) && $_SESSION['type']=='admin') {
             if (isset($_GET['notpublished'])) {
                 $ids=implode(',', $_GET['notpublished']);
                 try {
@@ -255,7 +263,7 @@ class PagesController
                 error_log("DB Error : ".$e->getMessage());
             }
             try {
-                $user = App::get('database')->selectOne('customer', 'Customer', 'username', $_SESSION['username']);
+                $user = App::get('database')->selectOne('customer', 'Customer', 'username', $_SESSION['email']);
                 if (isset($user)&& !empty($user)) {
                     $user=$user[0];
                 }
@@ -291,11 +299,11 @@ class PagesController
             session_start();
         }
         if (!isset($username) || empty(trim($username))) {
-            $username = $_SESSION['username'];
+            $username = $_SESSION['email'];
         }
-        if (isset($_SESSION['username']) && $_SESSION["type"]=="user") {
+        if (isset($_SESSION['email']) && $_SESSION["type"]=="user") {
             $allowed=false;
-            if($username!=$_SESSION['username']){
+            if($username!=$_SESSION['email']){
                 $result = App::get('database')->query('user', 'User',
                 "where id in 
                    (select user_one_id from friends where user_two_id = {$_SESSION['id']} and status = 1)
@@ -307,7 +315,7 @@ class PagesController
                     }
                 }
             }
-            if($allowed || ($username == $_SESSION['username'])){
+            if($allowed || ($username == $_SESSION['email'])){
                 try {
                     $result = App::get('database')->query('user', 'User',"where id in (select user_one_id from friends where user_two_id = {$_SESSION['id']} and status = 1) or id in (select user_two_id from friends where user_one_id = {$_SESSION['id']} and status = 1)");
                     $result = App::get('database')->selectOne('user', 'User', 'username', $username);
@@ -337,7 +345,7 @@ class PagesController
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        if (isset($_SESSION['username']) && $_SESSION["type"]=="user") {
+        if (isset($_SESSION['email']) && $_SESSION["type"]=="user") {
             $errors = array();
             $status = false;
             $validate = GUMP::is_valid($_POST, array(
@@ -409,7 +417,7 @@ class PagesController
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        if (isset($_SESSION['username']) && $_SESSION["type"]=="user") {
+        if (isset($_SESSION['email']) && $_SESSION["type"]=="user") {
             try {
                 $category = App::get('database')->selectAll('category', 'Category');
             } catch (PDOException $e) {
@@ -428,9 +436,9 @@ class PagesController
     //     if (session_status() !== PHP_SESSION_ACTIVE) {
     //         session_start();
     //     }
-    //     if (isset($_SESSION['username']) && $_SESSION["type"]=="user") {
+    //     if (isset($_SESSION['email']) && $_SESSION["type"]=="user") {
     //         try {
-    //             $user = App::get('database')->selectOne('customer', 'Customer', 'username', $_SESSION['username']);
+    //             $user = App::get('database')->selectOne('customer', 'Customer', 'username', $_SESSION['email']);
     //             if (isset($user)&& !empty($user)) {
     //                 $user=$user[0];
     //             }
@@ -473,9 +481,9 @@ class PagesController
     //     if (session_status() !== PHP_SESSION_ACTIVE) {
     //         session_start();
     //     }
-    //     if (isset($_SESSION['username']) && $_SESSION["type"]=="user") {
+    //     if (isset($_SESSION['email']) && $_SESSION["type"]=="user") {
     //         try {
-    //             $user = App::get('database')->selectOne('customer', 'Customer', 'username', $_SESSION['username']);
+    //             $user = App::get('database')->selectOne('customer', 'Customer', 'username', $_SESSION['email']);
     //             if (isset($user)&& !empty($user)) {
     //                 $user=$user[0];
     //             }
@@ -501,8 +509,8 @@ class PagesController
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        if (isset($_SESSION['username'])) {
-            header('Location: /timeline');
+        if (isset($_SESSION['email'])) {
+            header('Location: /dashboard');
         } else {
             $title  = 'Login';
             return view('login', compact('title'));

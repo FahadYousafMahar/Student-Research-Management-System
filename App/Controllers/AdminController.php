@@ -12,46 +12,123 @@ use GUMP;
 use upload;
 use Carbon\Carbon;
 
-class ProfileController
+class AdminController
 {
-    public function about($username = null)
+    public function Admin($username = null)
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        try {
-            if (!isset($username)) {
-                $username = $_SESSION['email'];
-            }
-            $result = App::get('database')->selectOne('user', 'User', 'username', $username);
-
-            if (count($result) > 0) {
-                $user =  $result[0];
-                $about = App::get('database')->query('about', 'About', "where userid = $user->id ");
-                if (count($about) > 0) {
-                    $about = $about[0];
-                    $title = 'About';
-                    $pageTitle = 'About';
-                    return view('aboutprofile', compact('title', 'pageTitle', 'user', 'about'));
-                } else {
-                    $e = new Exception("Empty About at ".get_class()."@".__FUNCTION__." in ".__FILE__." at ".__LINE__."\n");
-                    error_log("My Error : ".$e->getMessage());
-                    nextpagealert("error", "User's About Page Does Not Exist");
-                    header("Location: /login");
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                try {
+                    $faculty = App::get('database')->query('faculty', 'Faculty',"order by createdat desc");
+                    $students = App::get('database')->query('student', 'Student',"order by createdat desc");
+                    $papers = App::get('database')->query('paper', 'Paper',"order by createdat desc");
+                    $user = App::get('database')->selectOne('admin', 'Admin','email',$_SESSION['email']);
+                    $user = $user[0];
+                    $title = 'Admin Dashboard';
+                    return view('admindashboard', compact('title','user', 'students','faculty','papers'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
                 }
-            } else {
-                $e = new Exception("Empty User at ".get_class()."@".__FUNCTION__." in ".__FILE__." at ".__LINE__."\n");
-                error_log("My Error : ".$e->getMessage());
-                //nextpagealert("error","User Does Not Exist");
-                header("Location: /login");
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
             }
-        } catch (PDOException $e) {
-            $e->getMessage();
-            error_log("DB Error : ".$e->getMessage());
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
         }
+        
     }
 
-    public function youraccount($username = null)
+    public function viewstudents($username = null)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                try {
+                    $students = App::get('database')->selectAll('student', 'Student');
+                    $user = App::get('database')->selectOne('admin', 'Admin','email',$_SESSION['email']);
+                    $user = $user[0];
+                    $title = 'Students List';
+                    return view('viewstudents', compact('title','user','students'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+        
+    }
+
+    public function viewfaculty($username = null)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                try {
+                    $faculty = App::get('database')->selectAll('faculty', 'Faculty');
+                    $user = App::get('database')->selectOne('admin', 'Admin','email',$_SESSION['email']);
+                    $user = $user[0];
+                    $title = 'Faculty List';
+                    return view('viewfaculty', compact('title','user','faculty'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+        
+    }
+
+    public function viewadmins($username = null)
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if ($_SESSION['type']=='Admin') {
+                try {
+                    $admins = App::get('database')->selectAll('admin', 'Admin');
+                    $user = App::get('database')->selectOne('admin', 'Admin','email',$_SESSION['email']);
+                    $user = $user[0];
+                    $title = 'Admins List';
+                    return view('viewadmins', compact('title','user','admins'));
+                } catch (PDOException $e) {
+                    $e->getMessage();
+                    error_log("DB Error : ".$e->getMessage());
+                }
+            }else{
+                \nextpagealert("error","You Are Not Allowed in Admin Area ! ");
+                header('Location: /login');
+            }
+        } else {
+            \nextpagealert("success","Please Login !");
+            header('Location: /login');
+        }
+        
+    }
+
+    public function myprofile($username = null)
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();

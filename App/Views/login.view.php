@@ -21,11 +21,11 @@
 		  <form method="post" action="/login">
 		  <div class="form-group">
 		  <div class="form-control-material">
-		  <label for="email">Login as</label>
+		  <label for="type">Login as</label>
                 <select name="type" class="selectpicker" data-style="btn-white" placeholder="Login as" data-live-search="true" data-size="5" style="display: none;">
                       <option>Student</option>
                       <option>Faculty</option>
-					  <option>Administrator</option>
+					  <option>Admin</option>
                     </select>
             </div>
             </div> 

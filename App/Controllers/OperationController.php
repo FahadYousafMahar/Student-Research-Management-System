@@ -20,7 +20,7 @@ class OperationController
             session_start();
         }
         
-        if (isset($_SESSION['username']) && $_SESSION['type']=='user') {
+        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
             try {
                 $value['userid'] = $_SESSION['id'];
                 $value['postid'] = $_POST['postid'];
@@ -46,7 +46,7 @@ class OperationController
             session_start();
         }
         
-        if (isset($_SESSION['username']) && $_SESSION['type']=='user') {
+        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
             try {
                 $value['fromid'] = $_SESSION['id'];
                 $value['toid'] = $_POST['toid'];
@@ -73,7 +73,7 @@ class OperationController
         
         }
         
-        if (isset($_SESSION['username']) && $_SESSION['type']=='user') {
+        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
             try {
                 $value['currentpassword'] = sha1(md5($_POST['currentpassword']));
                 $value['newpassword'] = sha1(md5($_POST['newpassword']));
@@ -106,7 +106,7 @@ class OperationController
             session_start();
         }
         
-        if (isset($_SESSION['username']) && $_SESSION['type']=='user') {
+        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
             try {
                 $username = $user;
                 if($result = App::get('database')->customselect("select concat(fname,' ',lname) as 'fullname',username,profilepic,city,country,createdat from user where username like '%{$username}' or username like '%{$username}%' or fname like '%{$username}%'")){
@@ -131,7 +131,7 @@ class OperationController
             session_start();
         }
         
-        if (isset($_SESSION['username']) && $_SESSION['type']=='user') { 
+        if (isset($_SESSION['email']) && $_SESSION['type']=='user') { 
             $image = App::get('Image')->make($_FILES['header']['tmp_name']);
             if( $image->width() < 1920 ||  $image->height() < 640){
                 response("error","Please Upload Header Image of at least 1920x640 pixels.");
@@ -155,10 +155,10 @@ class OperationController
             session_start();
         }
         
-        if (isset($_SESSION['username']) && $_SESSION['type']=='user') {
+        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
             $image = App::get('Image')->make(getcwd().'/app/data/temp/header'.$_SESSION['id'].'.jpg');
-            $image->fit(768,null,null,'top-left')->crop($_POST['w'], $_POST['h'], $_POST['x1'], $_POST['y1'])->save(getcwd().'/app/data/images/covers/'.$_SESSION['username'].'.jpg');
-            if(App::get('database')->customquery("update user set coverpic = '{$_SESSION['username']}' where id= {$_SESSION['id']}")){
+            $image->fit(768,null,null,'top-left')->crop($_POST['w'], $_POST['h'], $_POST['x1'], $_POST['y1'])->save(getcwd().'/app/data/images/covers/'.$_SESSION['email'].'.jpg');
+            if(App::get('database')->customquery("update user set coverpic = '{$_SESSION['email']}' where id= {$_SESSION['id']}")){
                 response("success","Header Picture Updated !");
                 die();
             }else{
@@ -179,7 +179,7 @@ class OperationController
             session_start();
         }
         
-        if (isset($_SESSION['username']) && $_SESSION['type']=='user') { 
+        if (isset($_SESSION['email']) && $_SESSION['type']=='user') { 
             $image = App::get('Image')->make($_FILES['profile']['tmp_name']);
             if( $image->width() < 120 ||  $image->height() < 120){
                 response("error","Please Upload Profile Image of at least 120x120 pixels.");
@@ -203,10 +203,10 @@ class OperationController
             session_start();
         }
         
-        if (isset($_SESSION['username']) && $_SESSION['type']=='user') {
+        if (isset($_SESSION['email']) && $_SESSION['type']=='user') {
             $image = App::get('Image')->make(getcwd().'/app/data/temp/profile'.$_SESSION['id'].'.jpg');
-            $image->fit(400,null,null,'top-left')->crop($_POST['w'], $_POST['h'], $_POST['x1'], $_POST['y1'])->fit(120,120)->save(getcwd().'/app/data/images/users/'.$_SESSION['username'].'.jpg');
-            if(App::get('database')->customquery("update user set profilepic = '{$_SESSION['username']}' where id= {$_SESSION['id']}")){
+            $image->fit(400,null,null,'top-left')->crop($_POST['w'], $_POST['h'], $_POST['x1'], $_POST['y1'])->fit(120,120)->save(getcwd().'/app/data/images/users/'.$_SESSION['email'].'.jpg');
+            if(App::get('database')->customquery("update user set profilepic = '{$_SESSION['email']}' where id= {$_SESSION['id']}")){
                 response("success","Profile Picture Updated Successfully!");
                 die();
             }else{

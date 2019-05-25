@@ -10,7 +10,7 @@
           <span class="icon-bar"></span>
         </button>
         <div class="navbar-brand navbar-brand-logo">
-          <a class="svg" href="index.html">
+          <a class="svg" href="/home">
             <svg viewBox="0 0 106 64" height="100%" width="100%" preserveAspectRatio="xMidYMid meet">
               <path d="M4.731,36.187h8.234v3.414H0.279V20.481h4.452V36.187z" />
               <path d="M21.094,39.878c-2.093,0-3.763-0.658-5.01-1.971c-1.248-1.313-1.872-2.959-1.872-4.938v-0.498
@@ -108,44 +108,31 @@
               <li><a href="website-instructor-profile.html">Private Profile</a></li>
             </ul>
           </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">UI <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="essential-buttons.html">Buttons</a></li>
-              <li><a href="essential-icons.html">Icons</a></li>
-              <li><a href="essential-progress.html">Progress</a></li>
-              <li><a href="essential-grid.html">Grid</a></li>
-              <li><a href="essential-forms.html">Forms</a></li>
-              <li><a href="essential-tables.html">Tables</a></li>
-              <li><a href="essential-tabs.html">Tabs</a></li>
-            </ul>
-          </li>
         </ul>
         <div class="navbar-right">
           <ul class="nav navbar-nav navbar-nav-bordered navbar-nav-margin-right">
             <!-- user -->
+            <?php if (isset($_SESSION['type'])): ?>
             <li class="dropdown user">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="/App/Views/images/people/110/guy-6.jpg" alt="" class="img-circle" /> Bill<span class="caret"></span>
+                <img src="/App/Data/images/users/<?= $_SESSION['profilepic'] ?>.jpg" alt="" class="img-circle" /><span class="text-capitalize"><?= $_SESSION['fname'].' '.$_SESSION['lname'] ?></span> <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="website-student-dashboard.html"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
+                <li><a href="/dashboard"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
                 <li><a href="website-student-courses.html"><i class="fa fa-mortar-board"></i> My Courses</a></li>
-                <li><a href="website-student-profile.html"><i class="fa fa-user"></i> Profile</a></li>
-                <li><a href="login.html"><i class="fa fa-sign-out"></i> Logout</a></li>
+                <li><a href="/myprofile"><i class="fa fa-user"></i> Profile</a></li>
+                <li><a href="/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
               </ul>
             </li>
             <!-- // END user -->
           </ul>
-          <a href="login.html" class="navbar-btn btn btn-primary">Log In</a>
+          <a href="/logout" class="navbar-btn btn btn-primary">Log out</a>
+          <?php else: ?>
+          <a href="/login" class="navbar-btn btn btn-primary">Log In</a>
+          <?php endif;?>
         </div>
       </div>
       <!-- /.navbar-collapse -->
     </div>
   </div>
 <div style="padding-top: 100px;"></div>
-<?php  
-// echo (!empty($_SESSION['profilepic'])) ?
-//                         App::get('Image')->make('./App/Data/images/users/'.$_SESSION['profilepic'].'.jpg')->fit(36, 36)->stream('data-url'):
-// 						App::get('Image')->make('./App/Data/images/users/default.jpg')->fit(36, 36)->stream('data-url'); 
-						?>

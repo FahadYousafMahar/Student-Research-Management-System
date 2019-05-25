@@ -1,6 +1,5 @@
-# Olympus-Social-Network-Script
-A social network project written in PHP and based on Olympus HTML Theme.
-
+# Student-Research-Management
+A Student Research Management System Made For Web Programming Course Project
 ### Prerequisites
 
 [PHP >= 7.2](https://php.net) - The language which powers web
@@ -25,7 +24,7 @@ A social network project written in PHP and based on Olympus HTML Theme.
 └─── vendor // Contains libraries included through Composer
 ```
 
-### Entity Relation Diagram
+<!-- ### Entity Relation Diagram
 
 ![ERD](/Docs/erd.png?raw=true "ERD")
 
@@ -44,12 +43,11 @@ A social network project written in PHP and based on Olympus HTML Theme.
 ##### Settings
 ![Settings](/Docs/settings.png?raw=true "Settings")
 ##### Change Password
-![Change Password](/Docs/changepass.png?raw=true "Change Password")
+![Change Password](/Docs/changepass.png?raw=true "Change Password")-->
 
 ## Authors
 
  [![Fahad Yousaf Mahar](https://avatars2.githubusercontent.com/u/20330772?s=48)](https://github.com/fahadyousafmahar)
-  [![Safi Ullah](https://avatars2.githubusercontent.com/u/41166092?s=48)](https://github.com/fahadyousafmahar)
 
 
 ## Acknowledgments
