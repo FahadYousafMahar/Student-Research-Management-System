@@ -8,8 +8,8 @@
           <span class="icon-block half text-white"><i class="fa fa-graduation-cap fa-2x"></i></span>
         </div>
         <div class="media-body">
-          <h3 class="text-display-2 text-white margin-none">Student Registration</h3>
-          <p class="text-white text-subhead">Get registered to submit your research papers!</p>
+          <h3 class="text-display-2 text-white margin-none">Faculty Registration</h3>
+          <p class="text-white text-subhead">Get registered to supervise research papers!</p>
         </div>
       </div>
     </div>
@@ -18,10 +18,18 @@
 
     <div class="container">
         <div class="panel panel-default text-center paper-shadow" data-z="0.5">
-          <h1 class="text-display-1">Register As Student</h1>
+          <h1 class="text-display-1">Register As Faculty</h1>
           <div class="panel-body">
             <!-- Signup -->
-            <form role="form" method="post" action="/registerstudent">
+            <form role="form" method="post" action="/registerfaculty" enctype="multipart/form-data">
+            <div class="row">
+            <div class="form-group">
+                  <div class="form-control-material">
+                  <input type="file" style="display:none" name="profilepic">
+                  <button id="addPhotoInput" class="btn btn-primary"><i class="icon-user-1"></i> Upload Profile Picture</button>
+                  </div>
+                </div>
+            </div>
             <div class="row">
               <div class="col-md-6 col-xs-12 col-sm-12">
                 <div class="form-group">
@@ -110,36 +118,16 @@
             <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
-                  <input required id="degree" type="text" name="degree" class="form-control" placeholder="Degree Programme"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
-                  <label for="degree">Degree Programme</label>
+                  <input required id="education" type="text" name="education" class="form-control" placeholder="Education / Qualification"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <label for="education">Education / Qualification</label>
                 </div>
               </div>
             </div>
             <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
-                  <input required id="institute" type="text" name="institute" class="form-control" placeholder="Institute Name"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
+                  <input required id="institute" type="text" name="institute" class="form-control" placeholder="Institute name"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
                   <label for="institute">Institute Name</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-          <div class="col-md-6 col-xs-12 col-sm-12">
-              <div class="form-group">
-                <select name="semester" class="selectpicker" data-style="btn-white" placeholder="Choose Gender" data-live-search="true" data-size="5" style="display: none;">
-                      <option>Choose Semester</option>
-                      <option>Spring</option>
-                      <option>Summers</option>
-                      <option>Fall</option>
-                    </select>                  
-                </div>
-              </div>
-            <div class="col-md-6 col-xs-12 col-sm-12">
-              <div class="form-group">
-                <div class="form-control-material">
-                  <input required id="semesteryear" type="text" name="semesteryear" class="form-control" placeholder="Semester Year"><span class="ma-form-highlight"></span><span class="ma-form-bar"></span>
-                  <label for="semesteryear">Semester Year</label>
                 </div>
               </div>
             </div>
@@ -165,7 +153,7 @@
                 <?php }
                  if($status){ ?>
                 <p class="bg-green-300 text-black">
-                    You have been registered successfully ! 
+                    You have been registered successfully !
                 </p>
                 <?php }} ?>
           </div>

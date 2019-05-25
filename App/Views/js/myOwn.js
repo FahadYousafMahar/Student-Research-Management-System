@@ -132,9 +132,9 @@ $(document).ready(function () {
 
     // // Attahcing  Cover photo uploader
 
-    // $(".btnUploadHeader").click(function () {
-    //     $(this).closest('.modal-body').find('input[type="file"]').trigger('click');
-    // });
+    $("#addPhotoInput").click(function () {
+        $(this).closest('form').find('input[type="file"]').trigger('click');
+    });
 
     // $(".header-form").find('input[type="file"]').change(function (e) {
     //     $.ajax({

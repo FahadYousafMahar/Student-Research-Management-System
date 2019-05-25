@@ -17,6 +17,10 @@
  // StudentController
     $routes ->get('registerstudent'   , 'StudentController@registerstudent');
     $routes ->post('registerstudent'   , 'StudentController@registerstudentProcess');
+
+// FacultyController
+    $routes ->get('registerfaculty'   , 'FacultyController@registerfaculty');
+    $routes ->post('registerfaculty'   , 'FacultyController@registerfacultyProcess');
    
     // $routes ->get('admin'    , 'PagesController@admin');
     // $routes ->get('adminpanel'    , 'PagesController@adminpanel');

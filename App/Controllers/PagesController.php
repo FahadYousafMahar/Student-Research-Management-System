@@ -14,47 +14,11 @@ class PagesController
 {
     public function home()
     {
-        // $query="where ";
-        // if (isset($_GET['minprice'])) {
-        //     $minprice = $_GET['minprice'];
-        // } else {
-        //     $minprice = 0;
-        // }
-        // $query="where price > {$minprice}";
-
-        // if (isset($_GET['search'])) {
-        //     $search = $_GET['search'];
-        //     $query.=" and title like '%{$search}%'";
-        // }
-
-        // if (isset($_GET['maxprice'])) {
-        //     $maxprice = $_GET['maxprice'];
-        //     $query.=" and price < {$maxprice}";
-        // }
-
-        // if (isset($_GET['seller'])) {
-        //     $seller = $_GET['seller'];
-        //     $query.=" and sellerid = {$seller}";
-        // }
-
-        // if (isset($_GET['start'])) {
-        //     $start = $_GET['start'];
-        // } else {
-        //     $start = 0;
-        // }
-        // $query.=" order by createdat desc limit {$start},12 ";
-
-        // try {
-        //     $products = App::get('database')->query('product', 'Product', $query);
-        // } catch (PDOException $e) {
-        //     $e->getMessage();
-        //     error_log("DB Error : ".$e->getMessage());
-        // }
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
-        if (isset($_SESSION['username']) && $_SESSION["type"]=="user") {
-            header("Location: /timeline");
+        if (isset($_SESSION['username']) && $_SESSION["type"]) {
+            header("Location: /dashboard");
         }else{
 
             $title = 'Home ';
@@ -62,37 +26,37 @@ class PagesController
         }
     }
 
-    public function search()
-    {
+    // public function search()
+    // {
         
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+    //     if (session_status() !== PHP_SESSION_ACTIVE) {
+    //         session_start();
+    //     }
         
-        if (isset($_SESSION['username']) && $_SESSION['type']=='user') {
-            try {
-                if (!isset($_GET['username'])) {
-                    nextpagealert("warning", "I can not find a person without name !");
-                    header("Location: /timeline");
-                }else{
-                    $username = $_GET['username'];
-                }
-                $friends = App::get('database')->query( 'user','User', "where id in (select user_one_id from friends where user_two_id = {$_SESSION['id']} and status = 1) or id in (select user_two_id from friends where user_one_id = {$_SESSION['id']} and status = 1)");
-                $result = App::get('database')->selectOne('user', 'User', 'id', $_SESSION['id']);
-                $user = $result[0];
-                $result = App::get('database')->query('user', 'User',"where username like '{$username}%' or username like '%{$username}%'");
-                $searched = $result;
-                $title = 'Search Results';
-                $pageTitle = 'Search Results';
-                return view('search', compact('title', 'pageTitle', 'searched','user'));
-            } catch (PDOException $e) {
-                $e->getMessage();
-                error_log("DB Error : ".$e->getMessage());
-            }
-        } else {
-            header("Location: /login");
-        }
-    }
+    //     if (isset($_SESSION['username']) && $_SESSION['type']=='user') {
+    //         try {
+    //             if (!isset($_GET['username'])) {
+    //                 nextpagealert("warning", "I can not find a person without name !");
+    //                 header("Location: /timeline");
+    //             }else{
+    //                 $username = $_GET['username'];
+    //             }
+    //             $friends = App::get('database')->query( 'user','User', "where id in (select user_one_id from friends where user_two_id = {$_SESSION['id']} and status = 1) or id in (select user_two_id from friends where user_one_id = {$_SESSION['id']} and status = 1)");
+    //             $result = App::get('database')->selectOne('user', 'User', 'id', $_SESSION['id']);
+    //             $user = $result[0];
+    //             $result = App::get('database')->query('user', 'User',"where username like '{$username}%' or username like '%{$username}%'");
+    //             $searched = $result;
+    //             $title = 'Search Results';
+    //             $pageTitle = 'Search Results';
+    //             return view('search', compact('title', 'pageTitle', 'searched','user'));
+    //         } catch (PDOException $e) {
+    //             $e->getMessage();
+    //             error_log("DB Error : ".$e->getMessage());
+    //         }
+    //     } else {
+    //         header("Location: /login");
+    //     }
+    // }
 
     public function register()
     {
@@ -101,114 +65,126 @@ class PagesController
     }
 
  
-    public function registerProcess()
-    {
-        $errors = array();
-        $status = false;
-        $_POST['birthday'] = Carbon::createFromFormat("d/m/Y", $_POST['birthday'])->format('Y-m-d');
-        $validate = GUMP::is_valid($_POST, array(
-   'fname'        => 'required|alpha_space',
-   'lname'        => 'required|alpha_space',
-   'username'        => 'required|alpha_dash',
-   'password'        => 'required|min_len,8',
-   'confirmpassword' => 'required|min_len,8',
-   'email'           => 'required|valid_email',
-   'gender'   =>  'required|alpha',
-   'birthday'             => 'required|date',
-   'city'             => 'required|alpha_space',
-   'country'             => 'required|alpha_space',
-  ));
+//     public function registerProcess()
+//     {
+//         $errors = array();
+//         $status = false;
+//         $_POST['birthday'] = Carbon::createFromFormat("d/m/Y", $_POST['birthday'])->format('Y-m-d');
+//         $validate = GUMP::is_valid($_POST, array(
+//    'fname'        => 'required|alpha_space',
+//    'lname'        => 'required|alpha_space',
+//    'username'        => 'required|alpha_dash',
+//    'password'        => 'required|min_len,8',
+//    'confirmpassword' => 'required|min_len,8',
+//    'email'           => 'required|valid_email',
+//    'gender'   =>  'required|alpha',
+//    'birthday'             => 'required|date',
+//    'city'             => 'required|alpha_space',
+//    'country'             => 'required|alpha_space',
+//   ));
 
-        if ($validate === true) {
-            if (isset($_POST['tos'])) {
-                if ($_POST['password'] == $_POST['confirmpassword']) {
-                    $value['username'] = $_POST['username'];
-                    $value['password'] = sha1(md5($_POST['password']));
-                    $value['email'] = $_POST['email'];
-                    $value['fname'] = $_POST['fname'];
-                    $value['lname'] = $_POST['lname'];
-                    $value['birthday'] = $_POST['birthday'];
-                    $value['gender'] = $_POST['gender'];
-                    $value['country'] = $_POST['country'];
-                    $value['city'] = $_POST['city'];
+//         if ($validate === true) {
+//             if (isset($_POST['tos'])) {
+//                 if ($_POST['password'] == $_POST['confirmpassword']) {
+//                     $value['username'] = $_POST['username'];
+//                     $value['password'] = sha1(md5($_POST['password']));
+//                     $value['email'] = $_POST['email'];
+//                     $value['fname'] = $_POST['fname'];
+//                     $value['lname'] = $_POST['lname'];
+//                     $value['birthday'] = $_POST['birthday'];
+//                     $value['gender'] = $_POST['gender'];
+//                     $value['country'] = $_POST['country'];
+//                     $value['city'] = $_POST['city'];
 
-                    try {
-                        $usercount = App::get('database')->selectOneCount('user', 'User', 'username', $value['username']);
-                        $emailcount = App::get('database')->selectOneCount('user', 'User', 'email', $value['email']);
-                        if ($usercount['count(*)']>'0' ) {
-                            $status = false;
-                            array_push($errors, "Username or Email aready Exists");
+//                     try {
+//                         $usercount = App::get('database')->selectOneCount('user', 'User', 'username', $value['username']);
+//                         $emailcount = App::get('database')->selectOneCount('user', 'User', 'email', $value['email']);
+//                         if ($usercount['count(*)']>'0' ) {
+//                             $status = false;
+//                             array_push($errors, "Username or Email aready Exists");
 
-                        }else if($emailcount['count(*)']>'0'){
-                            $status = false;
-                            array_push($errors, "Email aready Exists");
+//                         }else if($emailcount['count(*)']>'0'){
+//                             $status = false;
+//                             array_push($errors, "Email aready Exists");
 
-                        } else {
-                            try {
-                                App::get('database')->insert('user', $value);
-                                $result = App::get('database')->selectOne('user','User','email',$value['email']);
-                                $about = new \Myweb\Classes\About;
-                                $about->userid = $result[0]->id;
-                                $about = get_object_vars($about);
-                                App::get('database')->insert('about',$about);
-                                $status = true;
-                                $title = 'Register';
-                                \nextpagealert("success","You have been successfully registered !");
-                                return view('register', compact('title', 'status', 'validate'));
-                            } catch (PDOException $e) {
-                                $e->getMessage();
-                                error_log("DB Error : ".$e->getMessage());
-                            }
-                        }
-                    } catch (PDOException $e) {
-                        $e->getMessage();
-                        error_log("DB Error : ".$e->getMessage());
-                    }
-                } else {
-                    $status = false;
-                    array_push($errors, "Passwords donot match.");
-                }
-            } else {
-                $status = false;
-                array_push($errors, "You have to agree to our Terms & Conditions.");
-            }
-        } else {
-            $status = false;
-        }
+//                         } else {
+//                             try {
+//                                 App::get('database')->insert('user', $value);
+//                                 $result = App::get('database')->selectOne('user','User','email',$value['email']);
+//                                 $about = new \Myweb\Classes\About;
+//                                 $about->userid = $result[0]->id;
+//                                 $about = get_object_vars($about);
+//                                 App::get('database')->insert('about',$about);
+//                                 $status = true;
+//                                 $title = 'Register';
+//                                 \nextpagealert("success","You have been successfully registered !");
+//                                 return view('register', compact('title', 'status', 'validate'));
+//                             } catch (PDOException $e) {
+//                                 $e->getMessage();
+//                                 error_log("DB Error : ".$e->getMessage());
+//                             }
+//                         }
+//                     } catch (PDOException $e) {
+//                         $e->getMessage();
+//                         error_log("DB Error : ".$e->getMessage());
+//                     }
+//                 } else {
+//                     $status = false;
+//                     array_push($errors, "Passwords donot match.");
+//                 }
+//             } else {
+//                 $status = false;
+//                 array_push($errors, "You have to agree to our Terms & Conditions.");
+//             }
+//         } else {
+//             $status = false;
+//         }
 
-        $title = 'Register';
-        return view('register', compact('title', 'status', 'validate', 'errors'));
-    }
+//         $title = 'Register';
+//         return view('register', compact('title', 'status', 'validate', 'errors'));
+//     }
 
     public function loginProcess()
     {
+        
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
         $errors = array();
         $status = false;
-        try {
-            $row = App::get('database')->selectOne('user', 'User', 'email', $_POST['email']);
-            if (isset($row[0])) {
-                if ($_POST['email'] == $row[0]->email && sha1(md5($_POST['password'])) == $row[0]->password) {
-                    if (session_status() !== PHP_SESSION_ACTIVE) {
-                        session_start();
+        if(isset($_POST['type']) && !empty($_POST['email']) && !empty($_POST['password'])){
+            
+                try {
+                $row = App::get('database')->selectOne(strtolower($_POST['type']), $_POST['type'], 'email', $_POST['email']);
+                if (isset($row[0])) {
+                    if ($_POST['email'] == $row[0]->email && sha1(md5($_POST['password'])) == $row[0]->password) {
+                        if (session_status() !== PHP_SESSION_ACTIVE) {
+                            session_start();
+                        }
+                        foreach ($row[0] as $key => $value) {
+                            $_SESSION[$key] = $value;
+                        }
+                        $_SESSION["type"] = $_POST['type'];
+                        header('Location: /dashboard');
+                    } else {
+                        $status = false;
+                        array_push($errors, "Eamil or Password do not match.");
+                        nextpagealert("error","Email or Password do not match.");
                     }
-                    foreach ($row[0] as $key => $value) {
-                        $_SESSION[$key] = $value;
-                    }
-                    $_SESSION["type"] = "user";
-                    header('Location: /timeline');
                 } else {
-                    $status = false;
-                    array_push($errors, "Eamil or Password do not match.");
-                    nextpagealert("error","Email or Password do not match.");
+                    array_push($errors, "No account exists with that email");
+                    nextpagealert("error","No account exists with that email");
                 }
-            } else {
-                array_push($errors, "No account exists with that email");
-                nextpagealert("error","No account exists with that email");
+            } catch (PDOException $e) {
+                $e->getMessage();
+                error_log("DB Error : ".$e->getMessage());
             }
-        } catch (PDOException $e) {
-            $e->getMessage();
-            error_log("DB Error : ".$e->getMessage());
+        }else{
+            array_push($errors, "Please fill all fields.");
+            nextpagealert("error","Please fill all fields.");
         }
+        $status = false;
+        
         $title  = 'Login';
         return view('login', compact('title', 'status', 'errors'));
     }
