@@ -19,7 +19,7 @@ class StudentController
             if (session_status() !== PHP_SESSION_ACTIVE) {
                 session_start();
             }
-            if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+            if (isset($_SESSION['id']) && isset($_SESSION['type'])) {
                 if ($_SESSION['type']=='Student') {
                     try {
                         $faculty = App::get('database')->query('faculty', 'Faculty',"where id in (select facid from paper where stdid = {$_SESSION['id']}) order by createdat desc");
@@ -49,7 +49,7 @@ class StudentController
              if (session_status() !== PHP_SESSION_ACTIVE) {
                  session_start();
              }
-             if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
+             if (isset($_SESSION['id']) && isset($_SESSION['type'])) {
                  if ($_SESSION['type']=='Student') {
                      try {
                          $faculty = App::get('database')->query('faculty', 'Faculty'," where id in (select facid from factostd where stdid = {$_SESSION['id']})order by createdat desc");
@@ -114,7 +114,7 @@ class StudentController
             }
             
         }
-
+        
     public function editPaper($id = null)
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -204,7 +204,7 @@ class StudentController
         if (isset($_SESSION['email']) && isset($_SESSION['type'])) {
             if ($_SESSION['type']=='Student') {
                 if($id==null){
-                    \nextpagealert("error","Please Specify A Paper To Be Edited !");
+                    \nextpagealert("error","Please Specify A Paper To Be Viewed !");
                     header("Location: /viewpapers"); 
                     exit();
                 }

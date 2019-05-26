@@ -193,6 +193,7 @@ return array(
     'LayerShifter\\TLDSupport\\Tests\\Helpers\\MixedTest' => $vendorDir . '/layershifter/tld-support/tests/Helpers/Mixed.php',
     'LayerShifter\\TLDSupport\\Tests\\Helpers\\StrTest' => $vendorDir . '/layershifter/tld-support/tests/Helpers/StrTest.php',
     'Myweb\\Classes\\Admin' => $baseDir . '/App/Class/Admin.php',
+    'Myweb\\Classes\\FacToStd' => $baseDir . '/App/Class/FacToStd.php',
     'Myweb\\Classes\\Faculty' => $baseDir . '/App/Class/Faculty.php',
     'Myweb\\Classes\\Message' => $baseDir . '/App/Class/Message.php',
     'Myweb\\Classes\\Paper' => $baseDir . '/App/Class/Paper.php',

@@ -88,7 +88,7 @@
 												$genders=array("Male","Female");
 												foreach($genders as $gender) {
 									?>
-										<option value="<?=$gender?>"<?= ($gender==$i->gender) ? 'selected':''  ?> > <?=$gender?> </option>
+										<option value="<?=$gender?>" <?= ($gender==$i->gender) ? 'selected':''  ?> > <?=$gender?> </option>
 									<?php	} ?>
                     </select>                  
                 </div>
@@ -131,7 +131,8 @@
                 </div>
               </div>
             </div>
-					<?php endif; if (isset($i->degree)):?>
+					<?php endif; ?>
+          <?php if (isset($i->degree)):?>
             <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
@@ -140,7 +141,8 @@
                 </div>
               </div>
             </div>
-						<?php endif; if (isset($i->institute)):?>
+						<?php endif;?>
+            <?php if (isset($i->institute)):?>
             <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
@@ -160,12 +162,13 @@
 												$semesters=array("Spring","Summers","Fall");
 												foreach($semesters as $semester) {
 									?>
-										<option value="<?=$semester?>"<?= ($semester==$i->semester) ? 'selected':''  ?> > <?=$semester?> </option>
+										<option value="<?=$semester?>" <?= ($semester==$i->semester) ? 'selected':''  ?> > <?=$semester?> </option>
 									<?php	} ?>
                     </select>                  
                 </div>
               </div>
-						<?php endif; if (isset($i->semseteryear)):?>
+						<?php endif;?>
+            <?php if (isset($i->semseteryear)):?>
             <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
@@ -174,9 +177,10 @@
                 </div>
               </div>
             </div>
-						<?php endif; if (isset($i->aboutme)):?>
-						</div>
-          <div class="row">
+						<?php endif; ?>
+            </div>
+            <div class="row">
+            <?php if (isset($i->aboutme)):?>
           <div class="col-md-6 col-xs-12 col-sm-12">
               <div class="form-group">
                 <div class="form-control-material">
@@ -185,15 +189,17 @@
                 </div>
               </div>
             </div>
-          </div>
 					<?php endif;?>
+          </div>
         </form>
             <!-- //Signup -->
+           <?php if($_SESSION['type']=='Student'):?>
+           </div>
+           <?php endif; ?>
           </div>
 					</div>
         </div>
       </div>
-    </div>
 <?php include 'partials/dashnav.php' ?>
   </div>
 </div>

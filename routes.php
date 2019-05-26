@@ -16,9 +16,7 @@
      $routes ->get('addPaper'   , 'StudentController@addpaper');
      $routes ->get('viewpapers'   , 'StudentController@viewpapers');
      $routes ->get('viewPaper'   , 'StudentController@viewpaper');
-     $routes ->get('deletePaper'   , 'StudentController@deletePaper');
      $routes ->get('editPaper'   , 'StudentController@editPaper');
-
     $routes ->get('registerstudent'   , 'StudentController@registerstudent');
     
     $routes ->post('editPaper'   , 'StudentController@editpaperprocess');
@@ -27,8 +25,16 @@
 
 // FacultyController
     $routes ->get('Faculty'   , 'FacultyController@Faculty');
-
+    $routes ->get('viewapaper'   , 'FacultyController@viewapaper');
+    $routes ->get('viewallpapers'   , 'FacultyController@viewallpapers');
+    $routes ->get('viewallstudents'   , 'FacultyController@viewallstudents');
+    $routes ->get('deletePaper'   , 'FacultyController@deletePaper');
+    $routes ->get('editapaper'   , 'FacultyController@editaPaper');
     $routes ->get('registerfaculty'   , 'FacultyController@registerfaculty');
+    $routes ->get('supervisestudent'   , 'FacultyController@supervise');
+    $routes ->get('unsupervisestudent'   , 'FacultyController@unsupervise');
+
+    $routes ->post('editapaper'   , 'FacultyController@editapaperprocess');
     $routes ->post('registerfaculty'   , 'FacultyController@registerfacultyProcess');
    
 // AdminController

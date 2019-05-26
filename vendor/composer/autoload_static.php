@@ -290,6 +290,7 @@ class ComposerStaticInitf67b94ece1491b16d76ef66cfcec243a
         'LayerShifter\\TLDSupport\\Tests\\Helpers\\MixedTest' => __DIR__ . '/..' . '/layershifter/tld-support/tests/Helpers/Mixed.php',
         'LayerShifter\\TLDSupport\\Tests\\Helpers\\StrTest' => __DIR__ . '/..' . '/layershifter/tld-support/tests/Helpers/StrTest.php',
         'Myweb\\Classes\\Admin' => __DIR__ . '/../..' . '/App/Class/Admin.php',
+        'Myweb\\Classes\\FacToStd' => __DIR__ . '/../..' . '/App/Class/FacToStd.php',
         'Myweb\\Classes\\Faculty' => __DIR__ . '/../..' . '/App/Class/Faculty.php',
         'Myweb\\Classes\\Message' => __DIR__ . '/../..' . '/App/Class/Message.php',
         'Myweb\\Classes\\Paper' => __DIR__ . '/../..' . '/App/Class/Paper.php',
