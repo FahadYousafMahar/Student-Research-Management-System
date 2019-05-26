@@ -1,12 +1,33 @@
 # Student-Research-Management
-A Student Research Management System Made For Web Programming Course Project
-### Prerequisites
+A Student Research Paper Management System which can be used to collaborate between students and faculty members and manage research papers.
+
+Faculty Members can supervise a student and his research paper.
+## Prerequisites
 
 [PHP >= 7.2](https://php.net) - The language which powers web
 
 [MySql](http://www.mysql.com) - DBMS
 
-###  Project Directory Structure
+## Installation
+```
+1 - IMPORT research.sql
+2 - Change /config.php accordingly.
+3 - It is strongly advised that you add a Virtual Host to this project. 
+
+For Demo
+
+admin : user = admin@admin.com
+	pass = admin@admin.com
+
+faculty: user = atif.khattak@nu.edu.pk
+	pass = atif.khattak@nu.edu.pk
+
+student: user = safi@safi.com
+	pass = safi@safi.com
+
+```
+
+##  Project Directory Structure
 ```
 +
 ├───App // Everything related to current application
@@ -24,30 +45,40 @@ A Student Research Management System Made For Web Programming Course Project
 └─── vendor // Contains libraries included through Composer
 ```
 
-<!-- ### Entity Relation Diagram
 
-![ERD](/Docs/erd.png?raw=true "ERD")
-
-
-### Demo
+## Screenshots
 ##### Login
-![Login](/Docs/login.png?raw=true "Login")
-##### Timeline
-![Timeline](/Docs/timeline.png?raw=true "Timeline")
-##### Search
-![Search](/Docs/search.png?raw=true "Search")
-##### Friends
-![Friends](/Docs/friends.png?raw=true "Friends")
-##### Messages
-![Messages](/Docs/messages.png?raw=true "Messages")
-##### Settings
-![Settings](/Docs/settings.png?raw=true "Settings")
-##### Change Password
-![Change Password](/Docs/changepass.png?raw=true "Change Password")-->
+![Login](/Docs/signin.png?raw=true "Login")
+##### Register
+![Timeline](/Docs/register.png?raw=true "Timeline")
+### Admin
+##### Admin Dashboard
+![Admin Dashboard](/Docs/admindashboard.png?raw=true "Admin Dashboard")
+##### Admin View Students
+![Admin View Students](/Docs/adminviewstudents.png?raw=true "Admin View Students")
+##### Admin Edit Students
+![Admin Edit Students](/Docs/admineditstudent.png?raw=true "Admin Edit Students")
+##### Admin View Faculty
+![Admin View Faculty](/Docs/adminviewfaculty.png?raw=true "Admin View Faculty")
+##### Admin Edit Faculty
+![Admin Edit Faculty](/Docs/admineditfaculty.png?raw=true "Admin Edit Faculty")
 
+### Faculty
+##### Faculty Dashboard
+![Faculty Dashboard](/Docs/facultydashboard.png?raw=true "Faculty Dashboard")
+##### Faculty Supevise Student
+![Faculty Supevise Student](/Docs/facultysupervisepaper.png?raw=true "Faculty Supevise Student")
+##### Faculty View Paper
+![Faculty View Paper](/Docs/facultyviewpaper.png?raw=true "Faculty View Paper")
+
+### Student
+##### Student Dashboard
+![Student Dashboard](/Docs/studentdashboard.png?raw=true "Student Dashboard")
+##### Student View Paper
+![Student View Paper](/Docs/studentviewpaper.png?raw=true "Student View Paper")
 ## Authors
 
- [![Fahad Yousaf Mahar](https://avatars2.githubusercontent.com/u/20330772?s=48)](https://github.com/fahadyousafmahar)
+ [![Fahad Yousaf Mahar](https://avatars2.githubusercontent.com/u/20330772?s=60)](https://github.com/fahadyousafmahar)
 
 
 ## Acknowledgments

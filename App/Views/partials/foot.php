@@ -8,7 +8,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <strong>ResearchMate</strong> &copy; Copyright <?= date('Y')?> Umar Farooq
+    <strong>ResearchMate</strong> &copy; Copyright <?= date('Y')?> Fahad Yousaf Mahar
   </footer>
   <!-- // Footer -->
 
