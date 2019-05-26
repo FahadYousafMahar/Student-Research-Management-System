@@ -92,12 +92,13 @@
                                 $status = true;
                         ?>
                       <a href="/unsupervisestudent/<?= $i->id ?>" class="btn btn-default btn-xs ripple" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remove From Supervision"><span class="ink animate" style="height: 22px; width: 22px; top: -4px; left: -6.1875px;"></span><i class="fa fa-close"></i></a>
-                        <?php endif; endforeach; if (!$status):?>
+                        <?php endif; endforeach;?>
+                        <?php endif;?>
+                      <?php if (!$status):?>
                       <a href="/supervisestudent/<?= $i->id ?>" class="btn btn-default btn-xs ripple" data-toggle="tooltip" data-placement="top" title="" data-original-title="Supervise Student"><span class="ink animate" style="height: 22px; width: 22px; top: -4px; left: -6.1875px;"></span><i class="fa fa-user"></i></a>
                       <?php endif;?>
                     </td>
                   </tr>
-                  <?php endif;?>
                   <?php endforeach; endif;  ?>
                 </tbody>
               </table>
