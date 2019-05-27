@@ -1,4 +1,4 @@
-# Student-Research-Management
+# Student-Research-Management-System
 A Student Research Paper Management System which can be used to collaborate between students and faculty members and manage research papers.
 
 Faculty Members can supervise a student and his research paper.
